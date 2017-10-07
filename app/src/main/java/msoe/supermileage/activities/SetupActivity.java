@@ -1,10 +1,13 @@
-package msoe.supermileage;
+package msoe.supermileage.activities;
 
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import msoe.supermileage.R;
+import msoe.supermileage.fragments.SelectCarFragment;
+import msoe.supermileage.fragments.SelectServerFragment;
 
 public class SetupActivity
         extends AppCompatActivity
