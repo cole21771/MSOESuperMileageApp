@@ -2,28 +2,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="msoe.supermileage.SelectServerFragment">
+    tools:context="msoe.supermileage.SelectCarFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/hello_blank_fragment" />
 
         <Button
-            android:id="@+id/btnOpenSelectCar"
+            android:id="@+id/btnOpenSelectServer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="162dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="63dp"
-            android:text="Select Car" />
+            android:layout_marginTop="60dp"
+            android:text="Select Server" />
     </RelativeLayout>
 
 </FrameLayout>

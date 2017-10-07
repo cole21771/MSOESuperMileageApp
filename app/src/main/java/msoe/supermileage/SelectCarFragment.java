@@ -13,12 +13,12 @@ import android.widget.Button;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SelectServerFragment.OnFragmentInteractionListener} interface
+ * {@link SelectCarFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SelectServerFragment#newInstance} factory method to
+ * Use the {@link SelectCarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SelectServerFragment extends Fragment {
+public class SelectCarFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class SelectServerFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SelectServerFragment() {
+    public SelectCarFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class SelectServerFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SelectServerFragment.
+     * @return A new instance of fragment SelectCarFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SelectServerFragment newInstance(String param1, String param2) {
-        SelectServerFragment fragment = new SelectServerFragment();
+    public static SelectCarFragment newInstance(String param1, String param2) {
+        SelectCarFragment fragment = new SelectCarFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,20 +59,19 @@ public class SelectServerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_select_server, container, false);
+        View view = inflater.inflate(R.layout.fragment_select_car, container, false);
 
-        Button button = (Button) view.findViewById(R.id.btnOpenSelectCar);
+        Button button = (Button) view.findViewById(R.id.btnOpenSelectServer);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("doOpenSelectCar");
-                mListener.onFragmentInteraction(1);
+                System.out.println("doOpenSelectServer");
+                mListener.onFragmentInteraction(0);
             }
         });
 
