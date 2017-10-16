@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">Super Mileage</string>
+    <string name="app_name">SuperMileage Live Data</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="serverSelector">
+        <item>http://67.173.126.234:3000</item>
+        <item>http://192.168.1.173:3000</item>
+        <item>http://192.168.1.12:3000</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="title_activity_web_view">Name</string>
 </resources>

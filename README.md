@@ -1,10 +1,5 @@
-# MSOESuperMileageApp
+# Arduino-Android-USB
+Simple Android Application to interface an Arduino with an Android phone using an USB cable.
 
-### Project Manager:
-* Cole Abbeduto
+Made using felHR85's [UsbSerial Library](https://github.com/felHR85/UsbSerial)
 
-### Developers:
-* Chris Braithwaite
-
-### Contributers:
-* Cole Abbeduto
