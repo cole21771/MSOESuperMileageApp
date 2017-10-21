@@ -3,6 +3,7 @@ package msoe.supermileage.entities;
 import io.objectbox.annotation.Backlink;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Transient;
 import io.objectbox.relation.ToMany;
 
 /**
@@ -25,6 +26,9 @@ public class Server {
     private String ipAddress;
 
     private String name;
+
+    @Transient
+    private boolean reachable;
 
     @Backlink
     ToMany<Car> cars;
@@ -59,5 +63,13 @@ public class Server {
 
     public void setCars(ToMany<Car> cars) {
         this.cars = cars;
+    }
+
+    public boolean isReachable() {
+        return reachable;
+    }
+
+    public void setReachable(boolean reachable) {
+        this.reachable = reachable;
     }
 }
