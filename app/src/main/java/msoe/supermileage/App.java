@@ -20,6 +20,7 @@ public class App extends Application {
 
     private WebUtility webUtility;
     private LocationUtility locationUtility;
+    private ArduinoUtility arduinoUtility;
     private Activity currentActivity;
 
     @Override
@@ -33,6 +34,8 @@ public class App extends Application {
         this.webUtility = new WebUtility();
 
         this.locationUtility = new LocationUtility((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
+
+        this.arduinoUtility = new ArduinoUtility(this);
     }
 
     public BoxStore getBoxStore() {
