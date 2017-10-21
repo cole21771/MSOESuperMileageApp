@@ -1,5 +1,6 @@
 package msoe.supermileage;
 
+import android.app.Activity;
 import android.app.Application;
 
 import io.objectbox.BoxStore;
@@ -14,6 +15,7 @@ public class App extends Application {
     private BoxStore boxStore;
 
     private WebUtility webUtility;
+    private Activity currentActivity;
 
     @Override
     public void onCreate() {
@@ -28,5 +30,13 @@ public class App extends Application {
 
     public BoxStore getBoxStore() {
         return boxStore;
+    }
+
+    public Context getCurrentActivity() {
+        return currentActivity;
+    }
+
+    public void setActivity(Activity currentActivity) {
+        this.currentActivity = currentActivity;
     }
 }

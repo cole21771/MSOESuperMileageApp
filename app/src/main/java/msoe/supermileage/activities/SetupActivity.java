@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import msoe.supermileage.App;
 import msoe.supermileage.R;
 import msoe.supermileage.fragments.SelectCarFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
@@ -13,6 +14,8 @@ public class SetupActivity
         extends AppCompatActivity
         implements SelectServerFragment.OnFragmentInteractionListener,
         SelectCarFragment.OnFragmentInteractionListener {
+
+    private App app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,9 @@ public class SetupActivity
                 // being restored from previous state
             }
         }
+
+        this.app = (App) getApplication();
+        this.app.setActivity(this);
     }
 
     @Override
