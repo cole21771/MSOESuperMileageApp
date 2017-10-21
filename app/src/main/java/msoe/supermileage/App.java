@@ -13,13 +13,17 @@ public class App extends Application {
      */
     private BoxStore boxStore;
 
+    private WebUtility webUtility;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         // MyObjectBox is generated based on entity classes
         // MyObjectBox supplies a builder to set up a BoxStore for the app.
-        boxStore = MyObjectBox.builder().androidContext(App.this).build();
+        this.boxStore = MyObjectBox.builder().androidContext(App.this).build();
+
+        this.webUtility = new WebUtility();
     }
 
     public BoxStore getBoxStore() {
