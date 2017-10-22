@@ -24,6 +24,14 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="63dp"
             android:text="Select Car" />
+
+        <ListView
+            android:id="@+id/serversListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/btnOpenSelectCar"
+            android:layout_marginTop="18dp" />
     </RelativeLayout>
 
 </FrameLayout>
