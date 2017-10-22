@@ -1,14 +1,25 @@
 package msoe.supermileage.fragments;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import java.util.List;
+
+import io.objectbox.Box;
+import io.objectbox.BoxStore;
+import msoe.supermileage.App;
 import msoe.supermileage.R;
+import msoe.supermileage.entities.Server;
 
 
 /**
@@ -30,6 +41,9 @@ public class SelectServerFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private Box<Server> serverBox;
+    private List<Server> servers;
 
     public SelectServerFragment() {
         // Required empty public constructor
@@ -61,6 +75,9 @@ public class SelectServerFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        BoxStore boxStore = ((App) getActivity().getApplication()).getBoxStore();
+        serverBox = boxStore.boxFor(Server.class);
+        servers = serverBox.getAll();
     }
 
     @Override
@@ -69,13 +86,16 @@ public class SelectServerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_select_server, container, false);
 
-        Button button = (Button) view.findViewById(R.id.btnOpenSelectCar);
+        Button button = (Button) view.findViewById(R.id.btnNewServer);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println("doOpenSelectCar");
-                mListener.onFragmentInteraction(1);
+                addServer("Fake Server", "555.555.555.555");
             }
         });
+
+        // Setup the servers list view
+        ListView serversListView = (ListView)view.findViewById(R.id.serversListView);
+        serversListView.setAdapter(new ServersAdapter());
 
         return view;
     }
@@ -110,4 +130,100 @@ public class SelectServerFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(int arg);
     }
+
+    private class ServersAdapter implements ListAdapter {
+
+        public ServersAdapter() {
+
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+            boolean result = true;
+            int i = 0;
+            while (i < servers.size() && result) {
+                Server server = servers.get(i);
+                result = server.isReachable();
+                i++;
+            }
+            return true;
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+            return servers.get(position).isReachable();
+        }
+
+        @Override
+        public void registerDataSetObserver(DataSetObserver dataSetObserver) {
+
+        }
+
+        @Override
+        public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
+
+        }
+
+        @Override
+        public int getCount() {
+            return servers.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return servers.get(position).getName();
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return servers.get(position).getId();
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup container) {
+            View result = convertView;
+
+            if (result == null) {
+                LayoutInflater inflater = (LayoutInflater)getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                result = inflater.inflate(R.layout.listview_item_server, container, false);
+            }
+
+            Server server = servers.get(position);
+            TextView textView = (TextView) result.findViewById(R.id.serverName);
+            textView.setText(server.getName());
+
+// TODO reachable indicator
+//                ImageView imageView = (ImageView) result.findViewById(R.id.serverIndicator);
+//                imageView.setImageResource(server.isReachable() ? R.drawable.presence_online : presence_offline);
+
+            return result;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return 1;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 1;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return servers.isEmpty();
+        }
+    }
+
+    public void addServer(String name, String ipAddress) {
+        Server server = new Server(name, ipAddress);
+        serverBox.put(server);
+
+    }
+
 }
