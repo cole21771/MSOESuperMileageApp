@@ -94,7 +94,7 @@ public class SelectServerFragment extends Fragment {
         });
 
         // Setup the servers list view
-        ListView serversListView = (ListView)view.findViewById(R.id.serversListView);
+        ListView serversListView = (ListView) view.findViewById(R.id.serversListView);
         serversListView.setAdapter(new ServersAdapter());
 
         return view;
@@ -189,17 +189,15 @@ public class SelectServerFragment extends Fragment {
             View result = convertView;
 
             if (result == null) {
-                LayoutInflater inflater = (LayoutInflater)getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 result = inflater.inflate(R.layout.listview_item_server, container, false);
             }
 
             Server server = servers.get(position);
             TextView textView = (TextView) result.findViewById(R.id.serverName);
             textView.setText(server.getName());
-
-// TODO reachable indicator
-//                ImageView imageView = (ImageView) result.findViewById(R.id.serverIndicator);
-//                imageView.setImageResource(server.isReachable() ? R.drawable.presence_online : presence_offline);
+            ImageView imageView = (ImageView) result.findViewById(R.id.serverIndicator);
+            imageView.setImageResource(server.isReachable() ? android.R.drawable.presence_online : android.R.drawable.presence_offline);
 
             return result;
         }
