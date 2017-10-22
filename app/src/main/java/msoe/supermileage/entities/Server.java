@@ -33,6 +33,11 @@ public class Server {
     @Backlink
     ToMany<Car> cars;
 
+    public Server(String name, String ipAddress) {
+        this.name = name;
+        this.ipAddress = ipAddress;
+    }
+
     public long getId() {
         return id;
     }
