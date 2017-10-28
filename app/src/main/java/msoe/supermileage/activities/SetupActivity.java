@@ -28,7 +28,13 @@ public class SetupActivity
     private App app;
 
     private Box<Server> serverBox;
+    private Box<Car> carBox;
+    private Box<Config> configBox;
+
     private List<Server> servers;
+    private List<Car> localCars, remoteCars;
+    private List<Config> localConfigs, remoteConfigs;
+
 
     private Server selectedServer;
     private Car selectedCar;
@@ -48,6 +54,34 @@ public class SetupActivity
         return servers;
     }
 
+    public List<Car> getLocalCars() {
+        return localCars;
+    }
+
+    public List<Car> getRemoteCars() {
+        return remoteCars;
+    }
+
+    public List<Config> getLocalConfigs() {
+        return localConfigs;
+    }
+
+    public List<Config> getRemoteConfigs() {
+        return remoteConfigs;
+    }
+
+    public Server getSelectedServer() {
+        return selectedServer;
+    }
+
+    public Car getSelectedCar() {
+        return selectedCar;
+    }
+
+    public Config getSelectedConfig() {
+        return selectedConfig;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +90,10 @@ public class SetupActivity
         this.app = (App) getApplication();
         this.app.setActivity(this);
         this.servers = new ArrayList<>(10);
+        this.localCars = new ArrayList<>(10);
+        this.remoteCars = new ArrayList<>(10);
+        this.localConfigs = new ArrayList<>(10);
+        this.remoteConfigs = new ArrayList<>(10);
 
         BoxStore boxStore = this.app.getBoxStore();
         this.serverBox = boxStore.boxFor(Server.class);
