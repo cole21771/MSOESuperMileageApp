@@ -53,10 +53,19 @@ public class SetupActivity
     public void onFragmentInteraction(int arg) {
         Fragment fragment = null;
 
-        if (arg == 0) {
-            fragment = new SelectServerFragment();
-        } else if (arg == 1) {
-            fragment = new SelectCarFragment();
+
+        switch (arg) {
+            case 1://SERVER
+                fragment = SelectServerFragment.newInstance("", "");
+                break;
+            case 2://CAR
+                fragment = SelectCarFragment.newInstance("", "");
+                break;
+            case 3://CONFIG
+//                fragment = SelectConfigFragment.newInstance("", "");
+                break;
+            default:
+                break;
         }
 
         if (fragment != null) {
