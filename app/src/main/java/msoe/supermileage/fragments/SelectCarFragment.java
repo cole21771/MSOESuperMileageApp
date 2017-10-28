@@ -17,20 +17,12 @@ import msoe.supermileage.activities.SetupActivity;
  * Activities that contain this fragment must implement the
  * {@link SelectCarFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SelectCarFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class SelectCarFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private OnFragmentInteractionListener listener;
 
-    private OnFragmentInteractionListener mListener;
+    private SetupActivity setupActivity;
 
     /**
      * This interface must be implemented by activities that contain this
@@ -50,31 +42,11 @@ public class SelectCarFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SelectCarFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SelectCarFragment newInstance(String param1, String param2) {
-        SelectCarFragment fragment = new SelectCarFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        this.setupActivity = (SetupActivity) getActivity();
     }
 
     @Override
@@ -83,13 +55,7 @@ public class SelectCarFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_select_car, container, false);
 
-        Button button = (Button) view.findViewById(R.id.btnOpenSelectServer);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                System.out.println("doOpenSelectServer");
-//                mListener.onFragmentInteraction(0);
-            }
-        });
+
 
         return view;
     }
@@ -98,7 +64,7 @@ public class SelectCarFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+            listener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -108,6 +74,6 @@ public class SelectCarFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 }
