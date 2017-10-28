@@ -61,7 +61,10 @@ public class AddServerFragment extends Fragment {
             public void onClick(View v) {
                 String name = ((EditText)view.findViewById(R.id.serverNameEditText)).getText().toString();
                 String ipAddress = ((EditText)view.findViewById(R.id.serverIPEditText)).getText().toString();
-                listener.addServer(name, ipAddress);
+
+                if (name.length() > 0 && ipAddress.length() > 0) {
+                    listener.addServer(name, ipAddress);
+                }
 
                 listener.swapFragments(SetupActivity.SetupActivityFragmentType.SELECT_SERVER);
             }
