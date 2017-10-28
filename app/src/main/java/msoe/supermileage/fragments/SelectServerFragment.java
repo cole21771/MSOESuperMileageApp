@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -42,6 +43,8 @@ public class SelectServerFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void swapFragments(SetupActivity.SetupActivityFragmentType type);
+
+        void selectServer(Server server);
     }
 
     public SelectServerFragment() {
@@ -70,7 +73,21 @@ public class SelectServerFragment extends Fragment {
 
         // Setup the servers list view
         ListView serversListView = (ListView) view.findViewById(R.id.serversListView);
+        serversListView.setItemsCanFocus(false);
         serversListView.setAdapter(new ServersAdapter());
+        serversListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectServer(position);
+            }
+        });
+        serversListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                boolean result = true;
+                return result;
+            }
+        });
 
         return view;
     }
@@ -90,6 +107,12 @@ public class SelectServerFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
+    }
+
+    private void selectServer(int position) {
+        Server server = null;
+        server = setupActivity.getServers().get(position);
+        listener.selectServer(server);
     }
 
     private class ServersAdapter implements ListAdapter {
@@ -146,12 +169,30 @@ public class SelectServerFragment extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup container) {
+        public View getView(final int position, View convertView, ViewGroup container) {
             View result = convertView;
 
             if (result == null) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 result = inflater.inflate(R.layout.listview_item_server, container, false);
+                result.setClickable(true);
+                result.setLongClickable(true);
+
+                TextView textView = (TextView) result.findViewById(R.id.serverName);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        selectServer(position);
+                    }
+                });
+
+                ImageView imageView = (ImageView) result.findViewById(R.id.serverIndicator);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        selectServer(position);
+                    }
+                });
             }
 
             Server server = setupActivity.getServers().get(position);

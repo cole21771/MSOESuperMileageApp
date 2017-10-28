@@ -124,6 +124,15 @@ public class SetupActivity
     }
 
     @Override
+    public void selectServer(Server server) {
+        assert server != null;
+
+        this.selectedServer = server;
+
+        this.swapFragments(SetupActivityFragmentType.SELECT_CAR);
+    }
+
+    @Override
     public void addServer(String name, String ipAddress) {
         Server server = new Server(name, ipAddress);
         serverBox.put(server);

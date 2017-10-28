@@ -27,7 +27,7 @@
         android:id="@+id/serverName"
         android:layout_width="320dp"
         android:layout_height="43dp"
-        android:text="TextView"
+        android:hint="Some Server"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         tools:layout_conversion_absoluteX="8dp"
         tools:layout_conversion_absoluteY="81dp"
