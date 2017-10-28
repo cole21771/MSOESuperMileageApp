@@ -1,5 +1,8 @@
 package msoe.supermileage.entities;
 
+import java.io.IOException;
+import java.net.InetAddress;
+
 import io.objectbox.annotation.Backlink;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
@@ -79,5 +82,15 @@ public class Server {
 
     public void setReachable(boolean reachable) {
         this.reachable = reachable;
+    }
+
+    public void checkIsReachable() {
+        boolean result = false;
+        try {
+            result = InetAddress.getByName(this.ipAddress).isReachable(3);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setReachable(result);
     }
 }

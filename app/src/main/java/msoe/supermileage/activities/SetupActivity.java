@@ -127,5 +127,9 @@ public class SetupActivity
     private void refreshServers() {
         this.servers.clear();
         this.servers.addAll(serverBox.getAll());
+
+        for (Server server : this.servers) {
+            server.checkIsReachable();
+        }
     }
 }
