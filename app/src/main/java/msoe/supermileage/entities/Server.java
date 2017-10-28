@@ -12,13 +12,12 @@ import io.objectbox.relation.ToMany;
  *
  * @link http://objectbox.io/documentation/entity-annotations/
  * @link http://objectbox.io/documentation/relations/
- *
  */
 @Entity
 public class Server {
 
     /**
-     *  every object has an ID of type long to efficiently get or reference objects
+     * every object has an ID of type long to efficiently get or reference objects
      */
     @Id
     private long id;
@@ -31,7 +30,11 @@ public class Server {
     private boolean reachable;
 
     @Backlink
-    ToMany<Car> cars;
+    private ToMany<Car> cars;
+
+    public Server() {
+        // Entity is expected to have a no-arg constructor
+    }
 
     public Server(String name, String ipAddress) {
         this.name = name;

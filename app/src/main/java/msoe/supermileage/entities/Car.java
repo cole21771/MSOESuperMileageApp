@@ -12,23 +12,26 @@ import io.objectbox.relation.ToOne;
  *
  * @link http://objectbox.io/documentation/entity-annotations/
  * @link http://objectbox.io/documentation/relations/
- *
  */
 @Entity
 public class Car {
 
     /**
-     *  every object has an ID of type long to efficiently get or reference objects
+     * every object has an ID of type long to efficiently get or reference objects
      */
     @Id
     private long id;
 
     private String name;
 
-    ToOne<Server> server;
+    private ToOne<Server> server;
 
     @Backlink
-    ToMany<Config> configs;
+    private ToMany<Config> configs;
+
+    public Car() {
+        // Entity is expected to have a no-arg constructor
+    }
 
     public long getId() {
         return id;
@@ -61,4 +64,5 @@ public class Car {
     public void setConfigs(ToMany<Config> configs) {
         this.configs = configs;
     }
+
 }

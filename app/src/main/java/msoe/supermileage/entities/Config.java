@@ -10,13 +10,12 @@ import io.objectbox.relation.ToOne;
  *
  * @link http://objectbox.io/documentation/entity-annotations/
  * @link http://objectbox.io/documentation/relations/
- *
  */
 @Entity
 public class Config {
 
     /**
-     *  every object has an ID of type long to efficiently get or reference objects
+     * every object has an ID of type long to efficiently get or reference objects
      */
     @Id
     private long id;
@@ -25,7 +24,11 @@ public class Config {
 
     private String json;
 
-    ToOne<Car> car;
+    private ToOne<Car> car;
+
+    public Config() {
+        // Entity is expected to have a no-arg constructor
+    }
 
     public long getId() {
         return id;
