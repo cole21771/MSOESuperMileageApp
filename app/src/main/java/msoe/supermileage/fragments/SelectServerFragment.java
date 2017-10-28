@@ -19,6 +19,7 @@ import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import msoe.supermileage.App;
 import msoe.supermileage.R;
+import msoe.supermileage.activities.SetupActivity;
 import msoe.supermileage.entities.Server;
 
 
@@ -40,10 +41,24 @@ public class SelectServerFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener listener;
 
     private Box<Server> serverBox;
     private List<Server> servers;
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        void swapFragments(SetupActivity.SetupActivityFragmentType type);
+    }
 
     public SelectServerFragment() {
         // Required empty public constructor
@@ -89,7 +104,7 @@ public class SelectServerFragment extends Fragment {
         Button button = (Button) view.findViewById(R.id.btnNewServer);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                addServer("Fake Server", "555.555.555.555");
+                listener.swapFragments(SetupActivity.SetupActivityFragmentType.ADD_SERVER);
             }
         });
 
@@ -104,7 +119,7 @@ public class SelectServerFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+            listener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -114,21 +129,7 @@ public class SelectServerFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(int arg);
+        listener = null;
     }
 
     private class ServersAdapter implements ListAdapter {
@@ -221,7 +222,6 @@ public class SelectServerFragment extends Fragment {
     public void addServer(String name, String ipAddress) {
         Server server = new Server(name, ipAddress);
         serverBox.put(server);
-
     }
 
 }

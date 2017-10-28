@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import msoe.supermileage.R;
+import msoe.supermileage.activities.SetupActivity;
 
 
 /**
@@ -30,6 +31,20 @@ public class SelectCarFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        void swapFragments(SetupActivity.SetupActivityFragmentType type);
+    }
 
     public SelectCarFragment() {
         // Required empty public constructor
@@ -72,7 +87,7 @@ public class SelectCarFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("doOpenSelectServer");
-                mListener.onFragmentInteraction(0);
+//                mListener.onFragmentInteraction(0);
             }
         });
 
@@ -94,19 +109,5 @@ public class SelectCarFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(int arg);
     }
 }

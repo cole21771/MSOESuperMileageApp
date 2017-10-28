@@ -17,6 +17,16 @@ public class SetupActivity
 
     private App app;
 
+    public enum SetupActivityFragmentType {
+        NONE,
+        SELECT_SERVER,
+        ADD_SERVER,
+        SELECT_CAR,
+        ADD_CAR,
+        SELECT_CONFIG,
+        ADD_CONFIG
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,19 +60,27 @@ public class SetupActivity
     }
 
     @Override
-    public void onFragmentInteraction(int arg) {
+    public void swapFragments(SetupActivityFragmentType type) {
         Fragment fragment = null;
 
 
-        switch (arg) {
-            case 1://SERVER
+        switch (type) {
+            case NONE:
+                break;
+            case SELECT_SERVER:
                 fragment = SelectServerFragment.newInstance("", "");
                 break;
-            case 2://CAR
+            case ADD_SERVER:
+                break;
+            case SELECT_CAR:
                 fragment = SelectCarFragment.newInstance("", "");
                 break;
-            case 3://CONFIG
+            case ADD_CAR:
+                break;
+            case SELECT_CONFIG:
 //                fragment = SelectConfigFragment.newInstance("", "");
+                break;
+            case ADD_CONFIG:
                 break;
             default:
                 break;
