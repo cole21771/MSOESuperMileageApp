@@ -52,7 +52,7 @@ public class SetupActivity
         this.servers = new ArrayList<>(10);
 
         BoxStore boxStore = this.app.getBoxStore();
-        serverBox = boxStore.boxFor(Server.class);
+        this.serverBox = boxStore.boxFor(Server.class);
 
         refreshServers();
 
@@ -92,6 +92,7 @@ public class SetupActivity
                 fragment = new SelectServerFragment();
                 break;
             case ADD_SERVER:
+                fragment = new AddServerFragment();
                 break;
             case SELECT_CAR:
                 fragment = new SelectCarFragment();
@@ -116,6 +117,7 @@ public class SetupActivity
         }
     }
 
+    @Override
     public void addServer(String name, String ipAddress) {
         Server server = new Server(name, ipAddress);
         serverBox.put(server);
