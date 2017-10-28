@@ -12,6 +12,8 @@ import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import msoe.supermileage.App;
 import msoe.supermileage.R;
+import msoe.supermileage.entities.Car;
+import msoe.supermileage.entities.Config;
 import msoe.supermileage.entities.Server;
 import msoe.supermileage.fragments.AddServerFragment;
 import msoe.supermileage.fragments.SelectCarFragment;
@@ -27,6 +29,10 @@ public class SetupActivity
 
     private Box<Server> serverBox;
     private List<Server> servers;
+
+    private Server selectedServer;
+    private Car selectedCar;
+    private Config selectedConfig;
 
     public enum SetupActivityFragmentType {
         NONE,
