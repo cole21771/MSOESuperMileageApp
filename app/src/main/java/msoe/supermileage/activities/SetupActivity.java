@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.objectbox.Box;
@@ -48,6 +49,7 @@ public class SetupActivity
 
         this.app = (App) getApplication();
         this.app.setActivity(this);
+        this.servers = new ArrayList<>(10);
 
         BoxStore boxStore = this.app.getBoxStore();
         serverBox = boxStore.boxFor(Server.class);
@@ -117,9 +119,11 @@ public class SetupActivity
     public void addServer(String name, String ipAddress) {
         Server server = new Server(name, ipAddress);
         serverBox.put(server);
+        refreshServers();
     }
 
     private void refreshServers() {
-        servers = serverBox.getAll();
+        this.servers.clear();
+        this.servers.addAll(serverBox.getAll());
     }
 }
