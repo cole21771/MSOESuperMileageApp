@@ -1,28 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="msoe.supermileage.fragments.SelectCarFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+
+    <ExpandableListView
+        android:id="@+id/cars_expandablelistview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="331dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_car_button"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+    </ExpandableListView>
 
-        <Button
-            android:id="@+id/btnOpenSelectServer"
-            android:layout_width="match_parent"
-            android:layout_height="162dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="60dp"
-            android:text="Select Server" />
-    </RelativeLayout>
+    <Button
+        android:id="@+id/add_car_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/add_car"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
