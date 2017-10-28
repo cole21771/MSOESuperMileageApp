@@ -7,13 +7,15 @@ import android.os.Bundle;
 
 import msoe.supermileage.App;
 import msoe.supermileage.R;
+import msoe.supermileage.fragments.AddServerFragment;
 import msoe.supermileage.fragments.SelectCarFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
 
 public class SetupActivity
         extends AppCompatActivity
         implements SelectServerFragment.OnFragmentInteractionListener,
-        SelectCarFragment.OnFragmentInteractionListener {
+        SelectCarFragment.OnFragmentInteractionListener,
+        AddServerFragment.OnFragmentInteractionListener {
 
     private App app;
 
