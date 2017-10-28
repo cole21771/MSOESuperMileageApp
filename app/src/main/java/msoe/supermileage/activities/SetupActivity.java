@@ -5,8 +5,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.List;
+
+import io.objectbox.Box;
+import io.objectbox.BoxStore;
 import msoe.supermileage.App;
 import msoe.supermileage.R;
+import msoe.supermileage.entities.Server;
 import msoe.supermileage.fragments.AddServerFragment;
 import msoe.supermileage.fragments.SelectCarFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
@@ -19,6 +24,9 @@ public class SetupActivity
 
     private App app;
 
+    private Box<Server> serverBox;
+    private List<Server> servers;
+
     public enum SetupActivityFragmentType {
         NONE,
         SELECT_SERVER,
@@ -29,10 +37,22 @@ public class SetupActivity
         ADD_CONFIG
     }
 
+    public List<Server> getServers() {
+        return servers;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
+
+        this.app = (App) getApplication();
+        this.app.setActivity(this);
+
+        BoxStore boxStore = this.app.getBoxStore();
+        serverBox = boxStore.boxFor(Server.class);
+
+        refreshServers();
 
         if (findViewById(R.id.fragment_container) == null) {
             // shouldn't happen
@@ -56,9 +76,6 @@ public class SetupActivity
                 // being restored from previous state
             }
         }
-
-        this.app = (App) getApplication();
-        this.app.setActivity(this);
     }
 
     @Override
@@ -70,12 +87,12 @@ public class SetupActivity
             case NONE:
                 break;
             case SELECT_SERVER:
-                fragment = SelectServerFragment.newInstance("", "");
+                fragment = new SelectServerFragment();
                 break;
             case ADD_SERVER:
                 break;
             case SELECT_CAR:
-                fragment = SelectCarFragment.newInstance("", "");
+                fragment = new SelectCarFragment();
                 break;
             case ADD_CAR:
                 break;
@@ -95,5 +112,14 @@ public class SetupActivity
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    public void addServer(String name, String ipAddress) {
+        Server server = new Server(name, ipAddress);
+        serverBox.put(server);
+    }
+
+    private void refreshServers() {
+        servers = serverBox.getAll();
     }
 }

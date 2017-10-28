@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/btnNewServer"
+            android:id="@+id/newServerBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Server"
@@ -30,7 +30,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/btnOpenSelectCar"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnNewServer"
+            app:layout_constraintBottom_toTopOf="@+id/newServerBtn"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
