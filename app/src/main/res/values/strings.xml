@@ -1,4 +1,28 @@
 <resources>
-    <string name="app_name">Super Mileage</string>
+    <string name="active">Active</string>
+
     <string name="add_car">Add Car</string>
+    <string name="add_config">Add Config</string>
+    <string name="add_server">Add Server</string>
+
+    <string name="app_name">Super Mileage</string>
+
+    <string name="car_name_placeholder">Car Name</string>
+
+    <string name="local_cars">Local Cars</string>
+    <string name="local_configs">Local Configs</string>
+
+    <string name="remote_cars">Server Cars</string>
+    <string name="remote_configs">Server Configs</string>
+
+    <string name="save">Save</string>
+
+    <string name="server_ip">Server IP</string>
+    <string name="server_ip_placeholder">Server IP</string>
+    <string name="server_name">Server Name</string>
+    <string name="server_name_placeholder">Server Name</string>
+
+    <string name="start">Start</string>
+
+    <string name="stop">Stop</string>
 </resources>
