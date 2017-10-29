@@ -62,7 +62,7 @@ public class SelectCarFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_select_car, container, false);
 
-        Button button = (Button) view.findViewById(R.id.add_car_button);
+        Button button = view.findViewById(R.id.add_car_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 listener.swapFragments(SetupActivity.SetupActivityFragmentType.ADD_CAR);
@@ -70,7 +70,7 @@ public class SelectCarFragment extends Fragment {
         });
 
         // Setup the cars expandable list view
-        ExpandableListView carsListView = (ExpandableListView) view.findViewById(R.id.cars_expandablelistview);
+        ExpandableListView carsListView = view.findViewById(R.id.cars_expandablelistview);
         carsListView.setAdapter(new CarsExpandableListAdapter());
         carsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -135,7 +135,7 @@ public class SelectCarFragment extends Fragment {
                 result.setClickable(true);
                 result.setLongClickable(true);
 
-                Button button = (Button) result.findViewById(R.id.select_car_button);
+                Button button = result.findViewById(R.id.select_car_button);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -146,7 +146,7 @@ public class SelectCarFragment extends Fragment {
                 });
             }
 
-            TextView textView = (TextView) result.findViewById(R.id.car_name_textview);
+            TextView textView = result.findViewById(R.id.car_name_textview);
             if (groupPosition == 0) {
                 textView.setText(setupActivity.getLocalCars().get(childPosition).getName());
             } else {
@@ -164,6 +164,7 @@ public class SelectCarFragment extends Fragment {
                 return setupActivity.getRemoteCars().size();
             }
         }
+
         @Override
         public Object getGroup(int groupPosition) {
             if (groupPosition == 0) {
@@ -198,7 +199,7 @@ public class SelectCarFragment extends Fragment {
                 result = inflater.inflate(R.layout.listrow_group_cars, null);
             }
 
-            TextView textView = (TextView) result.findViewById(R.id.group_name_textview);
+            TextView textView = result.findViewById(R.id.group_name_textview);
             textView.setText(groupPosition == 0 ? getString(R.string.local_cars) : getString(R.string.remote_cars));
 
             return result;

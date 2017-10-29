@@ -1,7 +1,6 @@
 package msoe.supermileage.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,7 +36,7 @@ public class AddServerFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void swapFragments(SetupActivity.SetupActivityFragmentType type);
-        
+
         void addServer(String name, String ipAddress);
     }
 
@@ -56,11 +55,11 @@ public class AddServerFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_server, container, false);
 
-        Button button = (Button) view.findViewById(R.id.addServerBtn);
+        Button button = view.findViewById(R.id.addServerBtn);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String name = ((EditText)view.findViewById(R.id.serverNameEditText)).getText().toString();
-                String ipAddress = ((EditText)view.findViewById(R.id.serverIPEditText)).getText().toString();
+                String name = ((EditText) view.findViewById(R.id.serverNameEditText)).getText().toString();
+                String ipAddress = ((EditText) view.findViewById(R.id.serverIPEditText)).getText().toString();
 
                 if (name.length() > 0 && ipAddress.length() > 0) {
                     listener.addServer(name, ipAddress);

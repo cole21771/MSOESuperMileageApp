@@ -64,7 +64,7 @@ public class SelectServerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_select_server, container, false);
 
-        Button button = (Button) view.findViewById(R.id.newServerBtn);
+        Button button = view.findViewById(R.id.newServerBtn);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 listener.swapFragments(SetupActivity.SetupActivityFragmentType.ADD_SERVER);
@@ -72,7 +72,7 @@ public class SelectServerFragment extends Fragment {
         });
 
         // Setup the servers list view
-        ListView serversListView = (ListView) view.findViewById(R.id.serversListView);
+        ListView serversListView = view.findViewById(R.id.serversListView);
         serversListView.setItemsCanFocus(false);
         serversListView.setAdapter(new ServersAdapter());
         serversListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -178,7 +178,7 @@ public class SelectServerFragment extends Fragment {
                 result.setClickable(true);
                 result.setLongClickable(true);
 
-                TextView textView = (TextView) result.findViewById(R.id.serverName);
+                TextView textView = result.findViewById(R.id.serverName);
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -186,7 +186,7 @@ public class SelectServerFragment extends Fragment {
                     }
                 });
 
-                ImageView imageView = (ImageView) result.findViewById(R.id.serverIndicator);
+                ImageView imageView = result.findViewById(R.id.serverIndicator);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -196,9 +196,9 @@ public class SelectServerFragment extends Fragment {
             }
 
             Server server = setupActivity.getServers().get(position);
-            TextView textView = (TextView) result.findViewById(R.id.serverName);
+            TextView textView = result.findViewById(R.id.serverName);
             textView.setText(server.getName());
-            ImageView imageView = (ImageView) result.findViewById(R.id.serverIndicator);
+            ImageView imageView = result.findViewById(R.id.serverIndicator);
             imageView.setImageResource(server.isReachable() ? android.R.drawable.presence_online : android.R.drawable.presence_offline);
 
             return result;

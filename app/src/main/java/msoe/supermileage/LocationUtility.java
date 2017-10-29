@@ -49,7 +49,7 @@ class LocationUtility implements LocationListener {
                                 location.getLatitude(),
                                 location.getLongitude(),
                                 location.getAltitude(),
-                                Double.valueOf(location.getSpeed() * SPEED_MULTIPLIER)
+                                location.getSpeed() * SPEED_MULTIPLIER
                         }
                 )
         );

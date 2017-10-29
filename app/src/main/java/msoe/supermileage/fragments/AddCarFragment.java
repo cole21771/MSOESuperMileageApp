@@ -55,7 +55,7 @@ public class AddCarFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_car, container, false);
 
-        Button button = (Button) view.findViewById(R.id.add_car_button);
+        Button button = view.findViewById(R.id.add_car_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String name = ((EditText) view.findViewById(R.id.car_name_textview)).getText().toString();
