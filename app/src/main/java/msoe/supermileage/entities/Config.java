@@ -30,6 +30,11 @@ public class Config {
         // Entity is expected to have a no-arg constructor
     }
 
+    public Config(String name, String json) {
+        this.name = name;
+        this.json = json;
+    }
+
     public long getId() {
         return id;
     }

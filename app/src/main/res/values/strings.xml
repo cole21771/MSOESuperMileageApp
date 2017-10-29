@@ -8,6 +8,9 @@
     <string name="app_name">Super Mileage</string>
 
     <string name="car_name_placeholder">Car Name</string>
+    <string name="config_name_placeholder">Config Name</string>
+
+    <string name="config_json_placeholder">Config json goes here</string>
 
     <string name="local_cars">Local Cars</string>
     <string name="local_configs">Local Configs</string>

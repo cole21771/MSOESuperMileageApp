@@ -1,9 +1,9 @@
 package msoe.supermileage.activities;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,10 @@ import msoe.supermileage.entities.Car;
 import msoe.supermileage.entities.Config;
 import msoe.supermileage.entities.Server;
 import msoe.supermileage.fragments.AddCarFragment;
+import msoe.supermileage.fragments.AddConfigFragment;
 import msoe.supermileage.fragments.AddServerFragment;
 import msoe.supermileage.fragments.SelectCarFragment;
+import msoe.supermileage.fragments.SelectConfigFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
 
 public class SetupActivity
@@ -25,7 +27,9 @@ public class SetupActivity
         implements SelectServerFragment.OnFragmentInteractionListener,
         SelectCarFragment.OnFragmentInteractionListener,
         AddServerFragment.OnFragmentInteractionListener,
-        AddCarFragment.OnFragmentInteractionListener {
+        AddCarFragment.OnFragmentInteractionListener,
+        SelectConfigFragment.OnFragmentInteractionListener,
+        AddConfigFragment.OnFragmentInteractionListener {
 
     private App app;
 
@@ -150,9 +154,10 @@ public class SetupActivity
                 fragment = new AddCarFragment();
                 break;
             case SELECT_CONFIG:
-//                fragment = SelectConfigFragment.newInstance("", "");
+                fragment = new SelectConfigFragment();
                 break;
             case ADD_CONFIG:
+                fragment = new AddConfigFragment();
                 break;
             default:
                 break;
@@ -165,6 +170,11 @@ public class SetupActivity
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    @Override
+    public void selectConfig(Config config) {
+        // TODO
     }
 
     @Override
@@ -201,6 +211,16 @@ public class SetupActivity
         Car car = new Car(name);
         carBox.put(car);
         refreshCars();
+    }
+
+    @Override
+    public void addConfig(String name, String json) {
+        Config config = new Config(name, json);
+        configBox.put(config);
+
+        selectedCar.getConfigs().add(config);
+
+        refreshConfigs();
     }
 
     private void refreshServers() {
