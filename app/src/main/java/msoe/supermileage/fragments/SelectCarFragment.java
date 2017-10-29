@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -67,7 +68,21 @@ public class SelectCarFragment extends Fragment {
 
         // Setup the cars expandable list view
         ExpandableListView carsListView = (ExpandableListView) view.findViewById(R.id.cars_expandablelistview);
-
+        carsListView.setAdapter(new CarsExpandableListAdapter());
+        carsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO select the car
+            }
+        });
+        carsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO select the car
+                boolean result = true;
+                return result;
+            }
+        });
 
         return view;
     }
@@ -116,6 +131,14 @@ public class SelectCarFragment extends Fragment {
                 result = inflater.inflate(R.layout.listrow_details_cars, null);
                 result.setClickable(true);
                 result.setLongClickable(true);
+
+                TextView textView = (TextView) result.findViewById(R.id.car_name_textview);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //TODO select the car
+                    }
+                });
             }
 
             TextView textView = (TextView) result.findViewById(R.id.car_name_textview);

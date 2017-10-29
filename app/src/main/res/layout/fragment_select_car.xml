@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context="msoe.supermileage.fragments.SelectCarFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <ExpandableListView
         android:id="@+id/cars_expandablelistview"
         android:layout_width="match_parent"
@@ -23,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="148dp"
+        android:layout_marginEnd="148dp"
         android:text="@string/add_car"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

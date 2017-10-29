@@ -91,6 +91,7 @@ public class SetupActivity
 
         this.app = (App) getApplication();
         this.app.setActivity(this);
+
         this.servers = new ArrayList<>(10);
         this.localCars = new ArrayList<>(10);
         this.remoteCars = new ArrayList<>(10);
@@ -99,6 +100,8 @@ public class SetupActivity
 
         BoxStore boxStore = this.app.getBoxStore();
         this.serverBox = boxStore.boxFor(Server.class);
+        this.carBox = boxStore.boxFor(Car.class);
+        this.configBox = boxStore.boxFor(Config.class);
 
         refreshServers();
 
@@ -170,6 +173,8 @@ public class SetupActivity
 
         this.selectedServer = server;
 
+        refreshCars();
+
         this.swapFragments(SetupActivityFragmentType.SELECT_CAR);
     }
 
@@ -180,6 +185,13 @@ public class SetupActivity
         refreshServers();
     }
 
+    @Override
+    public void addCar(String name) {
+        Car car = new Car(name);
+        carBox.put(car);
+        refreshCars();
+    }
+
     private void refreshServers() {
         this.servers.clear();
         this.servers.addAll(serverBox.getAll());
@@ -187,5 +199,10 @@ public class SetupActivity
         for (Server server : this.servers) {
             server.checkIsReachable();
         }
+    }
+
+    private void refreshCars() {
+        this.localCars.clear();
+        this.localCars.addAll(carBox.getAll());
     }
 }
