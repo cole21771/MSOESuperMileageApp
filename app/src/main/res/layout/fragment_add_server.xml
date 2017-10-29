@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context="msoe.supermileage.fragments.AddServerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <EditText
         android:id="@+id/serverNameEditText"
         android:layout_width="0dp"
