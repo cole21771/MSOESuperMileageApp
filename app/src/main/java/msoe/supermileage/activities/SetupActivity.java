@@ -15,6 +15,7 @@ import msoe.supermileage.R;
 import msoe.supermileage.entities.Car;
 import msoe.supermileage.entities.Config;
 import msoe.supermileage.entities.Server;
+import msoe.supermileage.fragments.AddCarFragment;
 import msoe.supermileage.fragments.AddServerFragment;
 import msoe.supermileage.fragments.SelectCarFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
@@ -23,7 +24,8 @@ public class SetupActivity
         extends AppCompatActivity
         implements SelectServerFragment.OnFragmentInteractionListener,
         SelectCarFragment.OnFragmentInteractionListener,
-        AddServerFragment.OnFragmentInteractionListener {
+        AddServerFragment.OnFragmentInteractionListener,
+        AddCarFragment.OnFragmentInteractionListener {
 
     private App app;
 
@@ -142,6 +144,7 @@ public class SetupActivity
                 fragment = new SelectCarFragment();
                 break;
             case ADD_CAR:
+                fragment = new AddCarFragment();
                 break;
             case SELECT_CONFIG:
 //                fragment = SelectConfigFragment.newInstance("", "");
