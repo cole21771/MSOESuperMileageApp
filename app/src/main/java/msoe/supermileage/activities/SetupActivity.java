@@ -168,6 +168,17 @@ public class SetupActivity
     }
 
     @Override
+    public void selectCar(Car car) {
+        assert car != null;
+
+        this.selectedCar = car;
+
+        refreshConfigs();
+
+        this.swapFragments(SetupActivityFragmentType.SELECT_CONFIG);
+    }
+
+    @Override
     public void selectServer(Server server) {
         assert server != null;
 
@@ -204,5 +215,16 @@ public class SetupActivity
     private void refreshCars() {
         this.localCars.clear();
         this.localCars.addAll(carBox.getAll());
+
+        this.remoteCars.clear();
+//        this.remoteCars.addAll(this.selectedServer.getCars().toArray());
+    }
+
+    private void refreshConfigs() {
+        this.localConfigs.clear();
+        this.localConfigs.addAll(selectedCar.getConfigs());
+
+        this.remoteConfigs.clear();
+//        this.remoteConfigs.addAll(this.selectedCar.getConfigs().toArray());
     }
 }

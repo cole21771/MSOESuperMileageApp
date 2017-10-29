@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import msoe.supermileage.R;
 import msoe.supermileage.activities.SetupActivity;
+import msoe.supermileage.entities.Car;
 
 
 /**
@@ -40,6 +41,8 @@ public class SelectCarFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void swapFragments(SetupActivity.SetupActivityFragmentType type);
+
+        void selectCar(Car car);
     }
 
     public SelectCarFragment() {
@@ -123,7 +126,7 @@ public class SelectCarFragment extends Fragment {
         }
 
         @Override
-        public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             View result = convertView;
 
             if (result == null) {
@@ -132,11 +135,13 @@ public class SelectCarFragment extends Fragment {
                 result.setClickable(true);
                 result.setLongClickable(true);
 
-                TextView textView = (TextView) result.findViewById(R.id.car_name_textview);
-                textView.setOnClickListener(new View.OnClickListener() {
+                Button button = (Button) result.findViewById(R.id.select_car_button);
+                button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //TODO select the car
+                        listener.selectCar(
+                                groupPosition == 0 ? setupActivity.getLocalCars().get(childPosition) : setupActivity.getRemoteCars().get(childPosition)
+                        );
                     }
                 });
             }
