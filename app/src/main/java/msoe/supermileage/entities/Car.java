@@ -33,6 +33,10 @@ public class Car {
         // Entity is expected to have a no-arg constructor
     }
 
+    public Car(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
