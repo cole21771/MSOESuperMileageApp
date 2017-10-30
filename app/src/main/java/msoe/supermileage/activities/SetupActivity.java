@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,9 @@ public class SetupActivity
         AddConfigFragment.OnFragmentInteractionListener {
 
     private App app;
+
+
+    private Toolbar toolbar;
 
     private Box<Server> serverBox;
     private Box<Car> carBox;
@@ -109,6 +113,10 @@ public class SetupActivity
 
         refreshServers();
 
+        this.toolbar = findViewById(R.id.setup_toolbar);
+        setSupportActionBar(this.toolbar);
+        this.toolbar.setTitle("Super Mileage App");
+
         if (findViewById(R.id.fragment_container) == null) {
             // shouldn't happen
         } else {
@@ -149,12 +157,14 @@ public class SetupActivity
                 break;
             case SELECT_CAR:
                 fragment = new SelectCarFragment();
+                this.toolbar.setTitle(this.selectedServer.getName());
                 break;
             case ADD_CAR:
                 fragment = new AddCarFragment();
                 break;
             case SELECT_CONFIG:
                 fragment = new SelectConfigFragment();
+                this.toolbar.setTitle(this.selectedCar.getName());
                 break;
             case ADD_CONFIG:
                 fragment = new AddConfigFragment();
