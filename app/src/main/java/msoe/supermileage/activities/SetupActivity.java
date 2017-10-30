@@ -1,5 +1,6 @@
 package msoe.supermileage.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -188,6 +189,7 @@ public class SetupActivity
 
         this.selectedConfig = config;
         refreshConfigs();
+        this.finishSetup();
     }
 
     @Override
@@ -255,4 +257,13 @@ public class SetupActivity
         this.remoteConfigs.clear();
 //        this.remoteConfigs.addAll(this.selectedCar.getConfigs().toArray());
     }
+
+    private void finishSetup() {
+        Intent intent = new Intent(this, CollectionActivity.class);
+        intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.selectedServer.getName());
+        intent.putExtra(App.EXTRA_SM_SERVER_IP, this.selectedServer.getIpAddress());
+        intent.putExtra(App.EXTRA_SM_CONFIG, this.selectedConfig.getJson());
+        startActivity(intent);
+    }
+
 }

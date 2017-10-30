@@ -11,6 +11,9 @@ import msoe.supermileage.entities.MyObjectBox;
 public class App extends Application {
 
     private static final int REQUEST_CODE = 777;
+    public static final String EXTRA_SM_SERVER_NAME = "msoe.supermileage.EXTRA_SM_SERVER_NAME";
+    public static final String EXTRA_SM_SERVER_IP = "msoe.supermileage.EXTRA_SM_SERVER_IP";
+    public static final String EXTRA_SM_CONFIG = "msoe.supermileage.EXTRA_SM_CONFIG";
 
     /**
      * The entry point for using ObjectBox.
