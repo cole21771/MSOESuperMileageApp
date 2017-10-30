@@ -252,7 +252,7 @@ public class SetupActivity
 
     private void refreshConfigs() {
         this.localConfigs.clear();
-        this.localConfigs.addAll(selectedCar.getConfigs());
+        this.localConfigs.addAll(configBox.getAll());
 
         this.remoteConfigs.clear();
 //        this.remoteConfigs.addAll(this.selectedCar.getConfigs().toArray());
