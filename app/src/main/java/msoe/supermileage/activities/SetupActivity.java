@@ -184,7 +184,10 @@ public class SetupActivity
 
     @Override
     public void selectConfig(Config config) {
-        // TODO
+        assert config != null;
+
+        this.selectedConfig = config;
+        refreshConfigs();
     }
 
     @Override
