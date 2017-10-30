@@ -192,9 +192,7 @@ public class SetupActivity
         assert car != null;
 
         this.selectedCar = car;
-
         refreshConfigs();
-
         this.swapFragments(SetupActivityFragmentType.SELECT_CONFIG);
     }
 
@@ -203,9 +201,7 @@ public class SetupActivity
         assert server != null;
 
         this.selectedServer = server;
-
         refreshCars();
-
         this.swapFragments(SetupActivityFragmentType.SELECT_CAR);
     }
 
@@ -220,6 +216,7 @@ public class SetupActivity
     public void addCar(String name) {
         Car car = new Car(name);
         carBox.put(car);
+//        selectedServer.getCars().add(car);
         refreshCars();
     }
 
@@ -227,9 +224,7 @@ public class SetupActivity
     public void addConfig(String name, String json) {
         Config config = new Config(name, json);
         configBox.put(config);
-
-        selectedCar.getConfigs().add(config);
-
+//        selectedCar.getConfigs().add(config);
         refreshConfigs();
     }
 
