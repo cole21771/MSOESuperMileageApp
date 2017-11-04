@@ -211,8 +211,8 @@ public class SetupActivity
     }
 
     @Override
-    public void addServer(String name, String ipAddress) {
-        Server server = new Server(name, ipAddress);
+    public void addServer(String name, String ipAddress, String port) {
+        Server server = new Server(name, ipAddress, port);
         serverBox.put(server);
         refreshServers();
     }

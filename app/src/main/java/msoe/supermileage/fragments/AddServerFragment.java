@@ -37,7 +37,7 @@ public class AddServerFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         void swapFragments(SetupActivity.SetupActivityFragmentType type);
 
-        void addServer(String name, String ipAddress);
+        void addServer(String name, String ipAddress, String port);
     }
 
     public AddServerFragment() {
@@ -60,9 +60,10 @@ public class AddServerFragment extends Fragment {
             public void onClick(View v) {
                 String name = ((EditText) view.findViewById(R.id.serverNameEditText)).getText().toString();
                 String ipAddress = ((EditText) view.findViewById(R.id.serverIPEditText)).getText().toString();
+                String port = ((EditText) view.findViewById(R.id.serverPortEditText)).getText().toString();
 
-                if (name.length() > 0 && ipAddress.length() > 0) {
-                    listener.addServer(name, ipAddress);
+                if (name.length() > 0 && ipAddress.length() > 0 && port.length() > 0) {
+                    listener.addServer(name, ipAddress, port);
                 }
 
                 listener.swapFragments(SetupActivity.SetupActivityFragmentType.SELECT_SERVER);

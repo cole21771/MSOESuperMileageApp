@@ -22,6 +22,8 @@
 
     <string name="server_ip">Server IP</string>
     <string name="server_ip_placeholder">Server IP</string>
+    <string name="server_port">Server Port</string>
+    <string name="server_port_placeholder">Server Port</string>
     <string name="server_name">Server Name</string>
     <string name="server_name_placeholder">Server Name</string>
 

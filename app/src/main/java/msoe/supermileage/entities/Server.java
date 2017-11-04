@@ -45,9 +45,10 @@ public class Server {
         // Entity is expected to have a no-arg constructor
     }
 
-    public Server(String name, String ipAddress) {
+    public Server(String name, String ipAddress, String port) {
         this.name = name;
         this.ipAddress = ipAddress;
+        this.port = port;
     }
 
     public long getId() {
