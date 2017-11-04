@@ -27,6 +27,8 @@ public class Server {
 
     private String ipAddress;
 
+    private String port;
+
     private String name;
 
     @Transient
@@ -58,6 +60,14 @@ public class Server {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
     }
 
     public String getName() {
