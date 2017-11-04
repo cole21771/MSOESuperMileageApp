@@ -99,24 +99,31 @@ public class Server {
         this.reachable = reachable;
     }
 
-    public boolean checkIsReachable() {
-        boolean result = false;
+    public void checkIsReachable() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                boolean result = false;
 
-        if (this.ipAddress != null && this.port != null) {
-            String url = "http://" + this.ipAddress + ":" + this.port;
-            if (URLUtil.isValidUrl(url)) {
-                try {
-                    InetAddress inetAddress = InetAddress.getByName(url);
-                    result = inetAddress.isReachable(TIMEOUT);
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (ipAddress != null && port != null) {
+                    String url = "http://" + ipAddress + ":" + port;
+                    if (URLUtil.isValidUrl(url)) {
+                        try {
+                            InetAddress inetAddress = InetAddress.getByName(url);
+                            result = inetAddress.isReachable(TIMEOUT);
+                        } catch (UnknownHostException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            }
-        }
 
-        setReachable(result);
-        return result;
+                setReachable(result);
+
+            }
+        };
+        thread.setDaemon(false);
+        thread.start();
     }
 }
