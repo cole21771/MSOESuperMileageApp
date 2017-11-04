@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\abbedutocg\Documents\SuperMileage\MSOESuperMileageApp\Repo\MSOESuperMileageApp.iml" filepath="C:\Users\abbedutocg\Documents\SuperMileage\MSOESuperMileageApp\Repo\MSOESuperMileageApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Repo.iml" filepath="$PROJECT_DIR$/Repo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MSOESuperMileageApp.iml" filepath="$PROJECT_DIR$/MSOESuperMileageApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
