@@ -3,6 +3,8 @@ package msoe.supermileage.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +57,38 @@ public class AddServerFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_server, container, false);
 
-        Button button = view.findViewById(R.id.addServerBtn);
-        button.setOnClickListener(new View.OnClickListener() {
+        final EditText nameEditText = ((EditText) view.findViewById(R.id.serverNameEditText));
+        final EditText ipAddressEditText = ((EditText) view.findViewById(R.id.serverIPEditText));
+        final EditText portEditText = ((EditText) view.findViewById(R.id.serverPortEditText));
+        final Button saveButton = view.findViewById(R.id.addServerBtn);
+
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Unused
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Unused
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                saveButton.setEnabled(
+                        nameEditText.getText().length() > 0 &&
+                                ipAddressEditText.getText().length() > 0 &&
+                                portEditText.getText().length() > 0
+                );
+            }
+        };
+
+        nameEditText.addTextChangedListener(watcher);
+        ipAddressEditText.addTextChangedListener(watcher);
+        portEditText.addTextChangedListener(watcher);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 String name = ((EditText) view.findViewById(R.id.serverNameEditText)).getText().toString();
                 String ipAddress = ((EditText) view.findViewById(R.id.serverIPEditText)).getText().toString();
@@ -69,6 +101,7 @@ public class AddServerFragment extends Fragment {
                 listener.swapFragments(SetupActivity.SetupActivityFragmentType.SELECT_SERVER);
             }
         });
+        saveButton.setEnabled(false);
 
         return view;
     }
