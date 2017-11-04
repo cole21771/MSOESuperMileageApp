@@ -1,7 +1,10 @@
 package msoe.supermileage.entities;
 
+import android.webkit.URLUtil;
+
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import io.objectbox.annotation.Backlink;
 import io.objectbox.annotation.Entity;
@@ -19,6 +22,7 @@ import io.objectbox.relation.ToMany;
 @Entity
 public class Server {
 
+    private static final int TIMEOUT = 5;
     /**
      * every object has an ID of type long to efficiently get or reference objects
      */
@@ -94,13 +98,24 @@ public class Server {
         this.reachable = reachable;
     }
 
-    public void checkIsReachable() {
+    public boolean checkIsReachable() {
         boolean result = false;
-        try {
-            result = InetAddress.getByName(this.ipAddress).isReachable(3);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        if (this.ipAddress != null && this.port != null) {
+            String url = "http://" + this.ipAddress + ":" + this.port;
+            if (URLUtil.isValidUrl(url)) {
+                try {
+                    InetAddress inetAddress = InetAddress.getByName(url);
+                    result = inetAddress.isReachable(TIMEOUT);
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
         setReachable(result);
+        return result;
     }
 }
