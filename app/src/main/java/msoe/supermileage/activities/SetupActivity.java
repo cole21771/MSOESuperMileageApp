@@ -262,6 +262,7 @@ public class SetupActivity
         Intent intent = new Intent(this, CollectionActivity.class);
         intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.selectedServer.getName());
         intent.putExtra(App.EXTRA_SM_SERVER_IP, this.selectedServer.getIpAddress());
+        intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.selectedServer.getPort());
         intent.putExtra(App.EXTRA_SM_CONFIG, this.selectedConfig.getJson());
         startActivity(intent);
     }

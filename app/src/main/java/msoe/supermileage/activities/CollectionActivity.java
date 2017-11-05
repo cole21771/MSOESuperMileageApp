@@ -17,6 +17,7 @@ public class CollectionActivity extends AppCompatActivity {
 
     private String serverName;
     private String serverIP;
+    private String serverPort;
     private String config;
     private ImageView serverAvailabilityImageView;
     private TextView statusTextView;
@@ -36,6 +37,7 @@ public class CollectionActivity extends AppCompatActivity {
 
         this.serverName = getIntent().getStringExtra(App.EXTRA_SM_SERVER_NAME);
         this.serverIP = getIntent().getStringExtra(App.EXTRA_SM_SERVER_IP);
+        this.serverPort = getIntent().getStringExtra(App.EXTRA_SM_SERVER_PORT);
         this.config = getIntent().getStringExtra(App.EXTRA_SM_CONFIG);
 
         this.serverAvailabilityImageView = findViewById(R.id.server_available_imageview);
