@@ -1,6 +1,7 @@
 package msoe.supermileage;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -77,17 +78,14 @@ class LocationUtility {
         this.locationInputHandler = locationInputHandler;
     }
 
+    @SuppressLint("MissingPermission")
     public void startMonitoringLocation() {
-        if (ActivityCompat.checkSelfPermission(app.getCurrentActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(app.getCurrentActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            String provider = locationManager.getBestProvider(this.providerCriteria, true);
-            if (provider == null) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this.locationListener);
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this.locationListener);
-            } else {
-                locationManager.requestLocationUpdates(provider, 0, 0, this.locationListener);
-            }
+        String provider = locationManager.getBestProvider(this.providerCriteria, true);
+        if (provider == null) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this.locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this.locationListener);
+        } else {
+            locationManager.requestLocationUpdates(provider, 0, 0, this.locationListener);
         }
     }
 

@@ -1,16 +1,28 @@
 package msoe.supermileage.activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import msoe.supermileage.App;
 import msoe.supermileage.R;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class CollectionActivity extends AppCompatActivity {
     private App app;
 
@@ -54,12 +66,63 @@ public class CollectionActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    app.startDataProcessing(serverIP, serverPort);
+                    CollectionActivityPermissionsDispatcher.startDataProcessingWithPermissionCheck(CollectionActivity.this);
                 } else {
-                    app.stopDataProcessing();
+                    stopDataProcessing();
                 }
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // NOTE: delegate the permission handling to generated method
+        CollectionActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    public void stopDataProcessing() {
+        app.stopDataProcessing();
+    }
+
+    @NeedsPermission({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE})
+    public void startDataProcessing() {
+        app.startDataProcessing(serverIP, serverPort);
+    }
+
+    @OnShowRationale({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE})
+    void showRational(final PermissionRequest request) {
+        showRationaleDialog("For Reasons", request);
+    }
+
+    @OnPermissionDenied({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE})
+    void permissionDenied() {
+        Toast.makeText(this, "permissionDenied -_-", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE})
+    void neverAskAgain() {
+        Toast.makeText(this, "OnNeverAskAgain -_-", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void showRationaleDialog(String message, final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setPositiveButton("Yup", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton("Nope", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .setMessage(message)
+                .show();
     }
 
     // TODO update status field, start/stop button text ( startStopToggleButton.setText(R.string.stop); startStopToggleButton.setText(R.string.start);
