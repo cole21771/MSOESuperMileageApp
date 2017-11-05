@@ -62,21 +62,25 @@ class ArduinoUtility {
                 usbDevice = getArduinoDevice();
             }
 
-            UsbDeviceConnection usbConnection = this.usbManager.openDevice(usbDevice);
-
-            if (usbConnection == null) {
-                requestDevicePermission(usbDevice);
+            if (usbDevice == null) {
+                // TODO handle no usb device
             } else {
-                this.usbSerialDevice = UsbSerialDevice.createUsbSerialDevice(usbDevice, usbConnection);
+                UsbDeviceConnection usbConnection = this.usbManager.openDevice(usbDevice);
 
-                // Open the device and set it up
-                this.usbSerialDevice.open();
-                this.usbSerialDevice.setBaudRate(115200);
-                this.usbSerialDevice.setDataBits(UsbSerialInterface.DATA_BITS_8);
-                this.usbSerialDevice.setStopBits(UsbSerialInterface.STOP_BITS_1);
-                this.usbSerialDevice.setParity(UsbSerialInterface.PARITY_NONE);
-                this.usbSerialDevice.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
-                this.usbSerialDevice.read(handleUsbSerialDeviceRead);
+                if (usbConnection == null) {
+                    requestDevicePermission(usbDevice);
+                } else {
+                    this.usbSerialDevice = UsbSerialDevice.createUsbSerialDevice(usbDevice, usbConnection);
+
+                    // Open the device and set it up
+                    this.usbSerialDevice.open();
+                    this.usbSerialDevice.setBaudRate(115200);
+                    this.usbSerialDevice.setDataBits(UsbSerialInterface.DATA_BITS_8);
+                    this.usbSerialDevice.setStopBits(UsbSerialInterface.STOP_BITS_1);
+                    this.usbSerialDevice.setParity(UsbSerialInterface.PARITY_NONE);
+                    this.usbSerialDevice.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
+                    this.usbSerialDevice.read(handleUsbSerialDeviceRead);
+                }
             }
         }
     }
