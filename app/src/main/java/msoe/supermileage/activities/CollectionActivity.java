@@ -3,6 +3,7 @@ package msoe.supermileage.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -48,6 +49,18 @@ public class CollectionActivity extends AppCompatActivity {
         this.statusTextView = findViewById(R.id.status_textview);
 
         this.startStopToggleButton = findViewById(R.id.data_send_togglebutton);
+        this.startStopToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    app.startDataProcessing(serverIP, serverPort);
+                } else {
+                    app.stopDataProcessing();
+                }
+            }
+        });
     }
+
+    // TODO update status field, start/stop button text ( startStopToggleButton.setText(R.string.stop); startStopToggleButton.setText(R.string.start);
 }

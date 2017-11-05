@@ -58,4 +58,16 @@ public class App extends Application {
         this.currentActivity = currentActivity;
     }
 
+    public void startDataProcessing(String ipAddress, String port) {
+        this.arduinoUtility.connect(null);
+        this.locationUtility.startMonitoringLocation();
+        this.webUtility.connectTo(ipAddress, port);
+    }
+
+    public void stopDataProcessing() {
+        this.webUtility.disconnect();
+        this.locationUtility.stopMonitoringLocation();
+        this.arduinoUtility.disconnect();
+    }
+
 }
