@@ -28,7 +28,6 @@
     <string name="server_name_placeholder">Server Name</string>
 
     <string name="start">Start</string>
-
     <string name="stop">Stop</string>
     <string name="select">Select</string>
     <string name="status_placeholder">Status</string>

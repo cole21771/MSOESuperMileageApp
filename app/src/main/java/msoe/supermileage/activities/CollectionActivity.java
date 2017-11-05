@@ -34,7 +34,7 @@ public class CollectionActivity extends AppCompatActivity {
 
         this.toolbar = findViewById(R.id.collection_toolbar);
         setSupportActionBar(this.toolbar);
-        this.toolbar.setTitle("Super Mileage App");
+        this.toolbar.setTitle(R.string.app_name);
 
         this.serverName = getIntent().getStringExtra(App.EXTRA_SM_SERVER_NAME);
         this.serverIP = getIntent().getStringExtra(App.EXTRA_SM_SERVER_IP);

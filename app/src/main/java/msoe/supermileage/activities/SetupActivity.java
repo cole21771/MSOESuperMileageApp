@@ -116,7 +116,7 @@ public class SetupActivity
 
         this.toolbar = findViewById(R.id.setup_toolbar);
         setSupportActionBar(this.toolbar);
-        this.toolbar.setTitle("Super Mileage App");
+        this.toolbar.setTitle(R.string.app_name);
 
         if (findViewById(R.id.fragment_container) == null) {
             // shouldn't happen
