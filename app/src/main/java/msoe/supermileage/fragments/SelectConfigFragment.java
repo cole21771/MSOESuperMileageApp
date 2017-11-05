@@ -145,7 +145,7 @@ public class SelectConfigFragment extends Fragment {
 
             if (result == null) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                result = inflater.inflate(R.layout.listrow_details_configs, null);
+                result = inflater.inflate(R.layout.listrow_item_configs, null);
                 result.setClickable(true);
                 result.setLongClickable(true);
 

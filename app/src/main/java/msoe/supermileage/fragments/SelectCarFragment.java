@@ -144,7 +144,7 @@ public class SelectCarFragment extends Fragment {
 
             if (result == null) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                result = inflater.inflate(R.layout.listrow_details_cars, null);
+                result = inflater.inflate(R.layout.listrow_item_cars, null);
                 result.setClickable(true);
                 result.setLongClickable(true);
 
