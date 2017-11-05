@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 import msoe.supermileage.R;
 import msoe.supermileage.activities.SetupActivity;
@@ -69,16 +71,38 @@ public class SelectConfigFragment extends Fragment {
             }
         });
 
-        // Setup the configs expandable list view
-        ExpandableListView configsListView = view.findViewById(R.id.configs_expandablelistview);
-        configsListView.setAdapter(new ConfigsExpandableListAdapter());
-        configsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // Setup the local configs list view
+        ListView localConfigsListView = view.findViewById(R.id.local_configs_listview);
+        localConfigsListView.setAdapter(new ConfigsAdapter(this.setupActivity, this.setupActivity.getLocalConfigs()));
+        localConfigsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO select the config
+                listener.selectConfig(
+                        setupActivity.getLocalConfigs().get(position)
+                );
             }
         });
-        configsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        localConfigsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO select the config
+                boolean result = true;
+                return result;
+            }
+        });
+
+        // Setup the remote configs list view
+        ListView remoteConfigsListView = view.findViewById(R.id.remote_configs_listview);
+        remoteConfigsListView.setAdapter(new ConfigsAdapter(this.setupActivity, this.setupActivity.getRemoteConfigs()));
+        remoteConfigsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listener.selectConfig(
+                        setupActivity.getRemoteConfigs().get(position)
+                );
+            }
+        });
+        remoteConfigsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TODO select the config
@@ -107,27 +131,17 @@ public class SelectConfigFragment extends Fragment {
         listener = null;
     }
 
-    private class ConfigsExpandableListAdapter extends BaseExpandableListAdapter {
+    private class ConfigsAdapter extends ArrayAdapter<Config> {
 
-        @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            Object result = null;
-            if (groupPosition == 0) {
-                result = setupActivity.getLocalConfigs().get(childPosition);
-            } else {
-                result = setupActivity.getRemoteConfigs().get(childPosition);
-            }
-            return result;
+        public ConfigsAdapter(Context context, List<Config> configs) {
+            super(context, 0, configs);
         }
 
         @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return 0;
-        }
-
-        @Override
-        public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View result = convertView;
+
+            final Config config = getItem(position);
 
             if (result == null) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -135,79 +149,26 @@ public class SelectConfigFragment extends Fragment {
                 result.setClickable(true);
                 result.setLongClickable(true);
 
-                Button button = result.findViewById(R.id.select_config_button);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        listener.selectConfig(
-                                groupPosition == 0 ? setupActivity.getLocalConfigs().get(childPosition) : setupActivity.getRemoteConfigs().get(childPosition)
-                        );
-                    }
-                });
+                if (config != null) {
+                    Button button = result.findViewById(R.id.select_config_button);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            listener.selectConfig(
+                                    config
+                            );
+                        }
+                    });
+                }
             }
 
             TextView textView = result.findViewById(R.id.config_name_textview);
-            if (groupPosition == 0) {
-                textView.setText(setupActivity.getLocalConfigs().get(childPosition).getName());
-            } else {
-                textView.setText(setupActivity.getRemoteConfigs().get(childPosition).getName());
+            if (config != null) {
+                textView.setText(config.getName());
             }
 
             return result;
-        }
-
-        @Override
-        public int getChildrenCount(int groupPosition) {
-            if (groupPosition == 0) {
-                return setupActivity.getLocalConfigs().size();
-            } else {
-                return setupActivity.getRemoteConfigs().size();
-            }
-        }
-
-        @Override
-        public Object getGroup(int groupPosition) {
-            if (groupPosition == 0) {
-                return setupActivity.getLocalConfigs();
-            } else {
-                return setupActivity.getRemoteConfigs();
-            }
-        }
-
-        @Override
-        public int getGroupCount() {
-            return 2;
-        }
-
-
-        @Override
-        public long getGroupId(int groupPosition) {
-            return 0;
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            View result = convertView;
-
-            if (result == null) {
-                LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                result = inflater.inflate(R.layout.listrow_group_configs, null);
-            }
-
-            TextView textView = result.findViewById(R.id.group_name_textview);
-            textView.setText(groupPosition == 0 ? getString(R.string.local_configs) : getString(R.string.remote_configs));
-
-            return result;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return false;
         }
     }
+
 }
