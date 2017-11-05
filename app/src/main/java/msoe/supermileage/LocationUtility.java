@@ -11,7 +11,7 @@ import android.support.v4.app.ActivityCompat;
 
 import java.util.Arrays;
 
-class LocationUtility implements LocationListener {
+class LocationUtility {
     private static final String LOCATION_POST_ARGUMENT = "newLocation";
 
     private final double SPEED_MULTIPLIER = 2.237;
@@ -19,8 +19,46 @@ class LocationUtility implements LocationListener {
     private final App app;
     private final WebUtility webUtility;
 
-    private LocationManager locationManager;
-    private Criteria providerCriteria;
+    private final LocationManager locationManager;
+    private final Criteria providerCriteria;
+
+    private final LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            if (locationInputHandler != null) {
+                String locationText = Arrays.toString(
+                        new Double[]{
+                                location.getLatitude(),
+                                location.getLongitude(),
+                                location.getAltitude(),
+                                location.getSpeed() * SPEED_MULTIPLIER
+                        }
+                );
+                locationInputHandler.onInputReceived(locationText);
+            }
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
+
+    private LocationInputHandler locationInputHandler;
+
+    public interface LocationInputHandler {
+        void onInputReceived(String text);
+    }
 
     public LocationUtility(App app, LocationManager locationManager) {
         assert app != null;
@@ -39,58 +77,25 @@ class LocationUtility implements LocationListener {
         this.providerCriteria.setPowerRequirement(Criteria.POWER_LOW);
     }
 
-
-    @Override
-    public void onLocationChanged(Location location) {
-        this.webUtility.post(
-                LOCATION_POST_ARGUMENT,
-                Arrays.toString(
-                        new Double[]{
-                                location.getLatitude(),
-                                location.getLongitude(),
-                                location.getAltitude(),
-                                location.getSpeed() * SPEED_MULTIPLIER
-                        }
-                )
-        );
+    public void handleLocationInput(LocationInputHandler locationInputHandler) {
+        this.locationInputHandler = locationInputHandler;
     }
 
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-    /**
-     * Start monitoring location
-     */
     public void startMonitoringLocation() {
         if (ActivityCompat.checkSelfPermission(app.getCurrentActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(app.getCurrentActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             String provider = locationManager.getBestProvider(this.providerCriteria, true);
             if (provider == null) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this.locationListener);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this.locationListener);
             } else {
-                locationManager.requestLocationUpdates(provider, 0, 0, this);
+                locationManager.requestLocationUpdates(provider, 0, 0, this.locationListener);
             }
         }
     }
 
-    /**
-     * Stop monitoring the location
-     */
     public void stopMonitoringLocation() {
-        locationManager.removeUpdates(this);
+        locationManager.removeUpdates(this.locationListener);
     }
 }
