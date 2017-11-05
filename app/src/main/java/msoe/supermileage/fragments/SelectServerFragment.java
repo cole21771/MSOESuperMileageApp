@@ -1,18 +1,19 @@
 package msoe.supermileage.fragments;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 import msoe.supermileage.R;
 import msoe.supermileage.activities.SetupActivity;
@@ -74,11 +75,11 @@ public class SelectServerFragment extends Fragment {
         // Setup the servers list view
         ListView serversListView = view.findViewById(R.id.serversListView);
         serversListView.setItemsCanFocus(false);
-        serversListView.setAdapter(new ServersAdapter());
+        serversListView.setAdapter(new ServersAdapter(this.setupActivity, this.setupActivity.getServers()));
         serversListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectServer(position);
+                listener.selectServer(setupActivity.getServers().get(position));
             }
         });
         serversListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -109,71 +110,22 @@ public class SelectServerFragment extends Fragment {
         listener = null;
     }
 
-    private void selectServer(int position) {
-        Server server = setupActivity.getServers().get(position);
-        listener.selectServer(server);
-    }
 
-    private class ServersAdapter implements ListAdapter {
+    private class ServersAdapter extends ArrayAdapter<Server> {
 
-        public ServersAdapter() {
-
+        public ServersAdapter(Context context, List<Server> servers) {
+            super(context, 0, servers);
         }
 
         @Override
-        public boolean areAllItemsEnabled() {
-            boolean result = true;
-            int i = 0;
-            while (i < setupActivity.getServers().size() && result) {
-                Server server = setupActivity.getServers().get(i);
-                result = server.isReachable();
-                i++;
-            }
-            return true;
-        }
-
-        @Override
-        public boolean isEnabled(int position) {
-            return setupActivity.getServers().get(position).isReachable();
-        }
-
-        @Override
-        public void registerDataSetObserver(DataSetObserver dataSetObserver) {
-
-        }
-
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver dataSetObserver) {
-
-        }
-
-        @Override
-        public int getCount() {
-            return setupActivity.getServers().size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return setupActivity.getServers().get(position).getName();
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return setupActivity.getServers().get(position).getId();
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup container) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View result = convertView;
+
+            final Server server = getItem(position);
 
             if (result == null) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                result = inflater.inflate(R.layout.listview_item_server, container, false);
+                result = inflater.inflate(R.layout.listview_item_server, parent, false);
                 result.setClickable(true);
                 result.setLongClickable(true);
 
@@ -181,7 +133,7 @@ public class SelectServerFragment extends Fragment {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        selectServer(position);
+                        listener.selectServer(server);
                     }
                 });
 
@@ -189,33 +141,17 @@ public class SelectServerFragment extends Fragment {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        selectServer(position);
+                        listener.selectServer(server);
                     }
                 });
             }
 
-            Server server = setupActivity.getServers().get(position);
             TextView textView = result.findViewById(R.id.serverName);
             textView.setText(server.getName());
             ImageView imageView = result.findViewById(R.id.serverIndicator);
             imageView.setImageResource(server.isReachable() ? android.R.drawable.presence_online : android.R.drawable.presence_offline);
 
             return result;
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return 1;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 1;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return setupActivity.getServers().isEmpty();
         }
     }
 
