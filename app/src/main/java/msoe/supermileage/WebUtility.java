@@ -11,22 +11,22 @@ class WebUtility {
     private static final String LOCATION_ARGUMENT = "newLocation";
 
     private Socket socket;
-    private String ipAddress;
-
-    private final App app;
-    private final ArduinoUtility arduinoUtility;
-    private final LocationUtility locationUtility;
 
 
     public WebUtility(App app, ArduinoUtility arduinoUtility, LocationUtility locationUtility) {
-        this.app = app;
-        this.arduinoUtility = arduinoUtility;
-        this.locationUtility = locationUtility;
+        App app1 = app;
 
-        this.arduinoUtility.handleUsbInput(new ArduinoUtility.UsbInputHandler() {
+        arduinoUtility.handleUsbInput(new ArduinoUtility.UsbInputHandler() {
             @Override
             public void onInputReceived(String text) {
                 post(DATA_ARGUMENT, text);
+            }
+        });
+
+        locationUtility.handleLocationInput(new LocationUtility.LocationInputHandler() {
+            @Override
+            public void onInputReceived(String text) {
+                post(LOCATION_ARGUMENT, text);
             }
         });
     }
@@ -43,6 +43,15 @@ class WebUtility {
         } catch (URISyntaxException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    public void disconnect() {
+        if (this.socket == null) {
+
+        } else {
+            this.socket.disconnect();
+            this.socket = null;
         }
     }
 
