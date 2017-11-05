@@ -23,6 +23,12 @@ class WebUtility {
         this.arduinoUtility = arduinoUtility;
         this.locationUtility = locationUtility;
 
+        this.arduinoUtility.handleUsbInput(new ArduinoUtility.UsbInputHandler() {
+            @Override
+            public void onInputReceived(String text) {
+                post(DATA_ARGUMENT, text);
+            }
+        });
     }
 
     public void connectTo(String ipAddress) {
@@ -46,9 +52,12 @@ class WebUtility {
     }
 
     public void post(String argument, String data) {
+        assert argument != null;
         assert data != null;
 
-        if (this.socket != null) {
+        if (this.socket == null) {
+            System.out.println(String.format("Socket closed. Argument '%s' data '%s'", argument, data));
+        } else {
             this.socket.emit(argument, data);
         }
     }
