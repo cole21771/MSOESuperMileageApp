@@ -31,22 +31,17 @@ class WebUtility {
         });
     }
 
-    public void connectTo(String ipAddress) {
+    public void connectTo(String ipAddress, String port) {
         assert ipAddress != null;
+        assert port != null;
 
-        if (!ipAddress.contains(":3000")) {
-            ipAddress += ":3000";
-        }
-
-        if (!ipAddress.contains("http://")) {
-            ipAddress = "http://" + ipAddress;
-        }
+        String url = "http://" + ipAddress + ":" + port;
 
         try {
-            this.socket = IO.socket(ipAddress);
+            this.socket = IO.socket(url);
             this.socket.connect();
-            this.ipAddress = ipAddress;
         } catch (URISyntaxException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
