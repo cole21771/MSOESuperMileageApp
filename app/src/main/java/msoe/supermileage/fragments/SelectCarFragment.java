@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 import msoe.supermileage.R;
 import msoe.supermileage.activities.SetupActivity;
@@ -69,16 +71,37 @@ public class SelectCarFragment extends Fragment {
             }
         });
 
-        // Setup the cars expandable list view
-        ExpandableListView carsListView = view.findViewById(R.id.cars_expandablelistview);
-        carsListView.setAdapter(new CarsExpandableListAdapter());
-        carsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // Setup the local cars list view
+        ListView localCarsListView = view.findViewById(R.id.local_cars_listview);
+        localCarsListView.setAdapter(new CarsAdapter(this.setupActivity, this.setupActivity.getLocalCars()));
+        localCarsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO select the car
+                listener.selectCar(
+                        setupActivity.getLocalCars().get(position)
+                );
             }
         });
-        carsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        localCarsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //TODO select the car
+                boolean result = true;
+                return result;
+            }
+        });
+
+        ListView remoteCarsListView = view.findViewById(R.id.remote_cars_listview);
+        remoteCarsListView.setAdapter(new CarsAdapter(this.setupActivity, this.setupActivity.getRemoteCars()));
+        remoteCarsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listener.selectCar(
+                        setupActivity.getRemoteCars().get(position)
+                );
+            }
+        });
+        remoteCarsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TODO select the car
@@ -107,27 +130,17 @@ public class SelectCarFragment extends Fragment {
         listener = null;
     }
 
-    private class CarsExpandableListAdapter extends BaseExpandableListAdapter {
+    private class CarsAdapter extends ArrayAdapter<Car> {
 
-        @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            Object result = null;
-            if (groupPosition == 0) {
-                result = setupActivity.getLocalCars().get(childPosition);
-            } else {
-                result = setupActivity.getRemoteCars().get(childPosition);
-            }
-            return result;
+        public CarsAdapter(Context context, List<Car> cars) {
+            super(context, 0, cars);
         }
 
         @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return 0;
-        }
-
-        @Override
-        public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View result = convertView;
+
+            final Car car = getItem(position);
 
             if (result == null) {
                 LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -135,79 +148,25 @@ public class SelectCarFragment extends Fragment {
                 result.setClickable(true);
                 result.setLongClickable(true);
 
-                Button button = result.findViewById(R.id.select_car_button);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        listener.selectCar(
-                                groupPosition == 0 ? setupActivity.getLocalCars().get(childPosition) : setupActivity.getRemoteCars().get(childPosition)
-                        );
-                    }
-                });
+                if (car != null) {
+                    Button button = result.findViewById(R.id.select_car_button);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            listener.selectCar(
+                                    car
+                            );
+                        }
+                    });
+                }
             }
 
             TextView textView = result.findViewById(R.id.car_name_textview);
-            if (groupPosition == 0) {
-                textView.setText(setupActivity.getLocalCars().get(childPosition).getName());
-            } else {
-                textView.setText(setupActivity.getRemoteCars().get(childPosition).getName());
+            if (car != null) {
+                textView.setText(car.getName());
             }
 
             return result;
-        }
-
-        @Override
-        public int getChildrenCount(int groupPosition) {
-            if (groupPosition == 0) {
-                return setupActivity.getLocalCars().size();
-            } else {
-                return setupActivity.getRemoteCars().size();
-            }
-        }
-
-        @Override
-        public Object getGroup(int groupPosition) {
-            if (groupPosition == 0) {
-                return setupActivity.getLocalCars();
-            } else {
-                return setupActivity.getRemoteCars();
-            }
-        }
-
-        @Override
-        public int getGroupCount() {
-            return 2;
-        }
-
-
-        @Override
-        public long getGroupId(int groupPosition) {
-            return 0;
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            View result = convertView;
-
-            if (result == null) {
-                LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                result = inflater.inflate(R.layout.listrow_group_cars, null);
-            }
-
-            TextView textView = result.findViewById(R.id.group_name_textview);
-            textView.setText(groupPosition == 0 ? getString(R.string.local_cars) : getString(R.string.remote_cars));
-
-            return result;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return false;
         }
     }
 }
