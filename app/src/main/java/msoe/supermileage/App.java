@@ -34,11 +34,11 @@ public class App extends Application {
         // MyObjectBox supplies a builder to set up a BoxStore for the app.
         this.boxStore = MyObjectBox.builder().androidContext(App.this).build();
 
-        this.webUtility = new WebUtility();
-
-        this.locationUtility = new LocationUtility((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
-
         this.arduinoUtility = new ArduinoUtility(this);
+
+        this.locationUtility = new LocationUtility(this, (LocationManager) getSystemService(Context.LOCATION_SERVICE));
+
+        this.webUtility = new WebUtility(this, this.arduinoUtility, this.locationUtility);
     }
 
     public BoxStore getBoxStore() {
@@ -56,4 +56,5 @@ public class App extends Application {
     public void setActivity(Activity currentActivity) {
         this.currentActivity = currentActivity;
     }
+
 }

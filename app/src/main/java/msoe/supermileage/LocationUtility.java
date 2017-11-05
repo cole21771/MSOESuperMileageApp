@@ -16,18 +16,18 @@ class LocationUtility implements LocationListener {
 
     private final double SPEED_MULTIPLIER = 2.237;
 
-    private final WebUtility webUtility;
     private final App app;
+    private final WebUtility webUtility;
 
     private LocationManager locationManager;
     private Criteria providerCriteria;
 
-    public LocationUtility(LocationManager locationManager, App app) {
-        assert locationManager != null;
+    public LocationUtility(App app, LocationManager locationManager) {
         assert app != null;
+        assert locationManager != null;
 
-        this.locationManager = locationManager;
         this.app = app;
+        this.locationManager = locationManager;
 
         this.webUtility = app.getWebUtility();
 

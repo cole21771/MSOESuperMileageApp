@@ -13,7 +13,15 @@ class WebUtility {
     private Socket socket;
     private String ipAddress;
 
-    public WebUtility() {
+    private final App app;
+    private final ArduinoUtility arduinoUtility;
+    private final LocationUtility locationUtility;
+
+
+    public WebUtility(App app, ArduinoUtility arduinoUtility, LocationUtility locationUtility) {
+        this.app = app;
+        this.arduinoUtility = arduinoUtility;
+        this.locationUtility = locationUtility;
 
     }
 
