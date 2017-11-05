@@ -20,13 +20,13 @@ import java.util.List;
 
 class ArduinoUtility {
 
-    public final String ACTION_USB_PERMISSION = "msoe.supermileage.USB_PERMISSION";
+    private final String ACTION_USB_PERMISSION = "msoe.supermileage.USB_PERMISSION";
 
     private final App app;
     private final UsbManager usbManager;
 
     private UsbSerialDevice usbSerialDevice;
-    private UsbSerialInterface.UsbReadCallback handleUsbSerialDeviceRead = new UsbSerialInterface.UsbReadCallback() {
+    private final UsbSerialInterface.UsbReadCallback handleUsbSerialDeviceRead = new UsbSerialInterface.UsbReadCallback() {
         @Override
         public void onReceivedData(byte[] bytes) {
             if (usbInputHandler != null) {
@@ -124,7 +124,7 @@ class ArduinoUtility {
             if (ACTION_USB_PERMISSION.equals(action)) {
 
                 synchronized (this) {
-                    UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                    UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
 
                     if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false) && device != null) {
                         connect(device);

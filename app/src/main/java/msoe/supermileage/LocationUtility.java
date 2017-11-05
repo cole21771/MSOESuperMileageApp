@@ -12,12 +12,10 @@ import android.support.v4.app.ActivityCompat;
 import java.util.Arrays;
 
 class LocationUtility {
-    private static final String LOCATION_POST_ARGUMENT = "newLocation";
 
     private final double SPEED_MULTIPLIER = 2.237;
 
     private final App app;
-    private final WebUtility webUtility;
 
     private final LocationManager locationManager;
     private final Criteria providerCriteria;
@@ -66,8 +64,6 @@ class LocationUtility {
 
         this.app = app;
         this.locationManager = locationManager;
-
-        this.webUtility = app.getWebUtility();
 
         this.providerCriteria = new Criteria();
         this.providerCriteria.setAccuracy(Criteria.ACCURACY_FINE);

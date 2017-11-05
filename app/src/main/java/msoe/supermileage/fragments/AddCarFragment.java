@@ -22,8 +22,6 @@ public class AddCarFragment extends Fragment {
 
     private OnFragmentInteractionListener listener;
 
-    private SetupActivity setupActivity;
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -42,11 +40,6 @@ public class AddCarFragment extends Fragment {
 
     public AddCarFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

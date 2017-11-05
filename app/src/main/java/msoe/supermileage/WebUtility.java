@@ -11,10 +11,11 @@ class WebUtility {
     private static final String LOCATION_ARGUMENT = "newLocation";
 
     private Socket socket;
+    private final App app;
 
 
     public WebUtility(App app, ArduinoUtility arduinoUtility, LocationUtility locationUtility) {
-        App app1 = app;
+        this.app = app;
 
         arduinoUtility.handleUsbInput(new ArduinoUtility.UsbInputHandler() {
             @Override
@@ -55,7 +56,7 @@ class WebUtility {
         }
     }
 
-    public void post(String argument, String data) {
+    private void post(String argument, String data) {
         assert argument != null;
         assert data != null;
 

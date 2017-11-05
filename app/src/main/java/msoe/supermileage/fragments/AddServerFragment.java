@@ -24,8 +24,6 @@ public class AddServerFragment extends Fragment {
 
     private OnFragmentInteractionListener listener;
 
-    private SetupActivity setupActivity;
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -47,19 +45,14 @@ public class AddServerFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_server, container, false);
 
-        final EditText nameEditText = ((EditText) view.findViewById(R.id.serverNameEditText));
-        final EditText ipAddressEditText = ((EditText) view.findViewById(R.id.serverIPEditText));
-        final EditText portEditText = ((EditText) view.findViewById(R.id.serverPortEditText));
+        final EditText nameEditText = view.findViewById(R.id.serverNameEditText);
+        final EditText ipAddressEditText = view.findViewById(R.id.serverIPEditText);
+        final EditText portEditText = view.findViewById(R.id.serverPortEditText);
         final Button saveButton = view.findViewById(R.id.addServerBtn);
 
         TextWatcher watcher = new TextWatcher() {

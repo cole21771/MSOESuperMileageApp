@@ -113,9 +113,9 @@ public class SelectConfigFragment extends Fragment {
         public Object getChild(int groupPosition, int childPosition) {
             Object result = null;
             if (groupPosition == 0) {
-                setupActivity.getLocalConfigs().get(childPosition);
+                result = setupActivity.getLocalConfigs().get(childPosition);
             } else {
-                setupActivity.getRemoteConfigs().get(childPosition);
+                result = setupActivity.getRemoteConfigs().get(childPosition);
             }
             return result;
         }

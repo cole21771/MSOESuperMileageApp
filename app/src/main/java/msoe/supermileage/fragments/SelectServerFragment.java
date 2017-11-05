@@ -110,8 +110,7 @@ public class SelectServerFragment extends Fragment {
     }
 
     private void selectServer(int position) {
-        Server server = null;
-        server = setupActivity.getServers().get(position);
+        Server server = setupActivity.getServers().get(position);
         listener.selectServer(server);
     }
 

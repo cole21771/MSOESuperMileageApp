@@ -113,9 +113,9 @@ public class SelectCarFragment extends Fragment {
         public Object getChild(int groupPosition, int childPosition) {
             Object result = null;
             if (groupPosition == 0) {
-                setupActivity.getLocalCars().get(childPosition);
+                result = setupActivity.getLocalCars().get(childPosition);
             } else {
-                setupActivity.getRemoteCars().get(childPosition);
+                result = setupActivity.getRemoteCars().get(childPosition);
             }
             return result;
         }
