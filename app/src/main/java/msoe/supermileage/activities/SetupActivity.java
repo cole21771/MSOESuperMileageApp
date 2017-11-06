@@ -237,8 +237,8 @@ public class SetupActivity
         this.servers.clear();
         this.servers.addAll(serverBox.getAll());
 
-        for (Server server : this.servers) {
-            server.checkIsReachable();
+        for (final Server server : this.servers) {
+            server.checkReachable(serverBox);
         }
     }
 

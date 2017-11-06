@@ -2,15 +2,13 @@ package msoe.supermileage.entities;
 
 import android.webkit.URLUtil;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
+import io.objectbox.Box;
 import io.objectbox.annotation.Backlink;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Transient;
 import io.objectbox.relation.ToMany;
+import msoe.supermileage.WebUtility;
 
 /**
  * The @Entity annotation identifies Server as a persistable entity.
@@ -22,7 +20,6 @@ import io.objectbox.relation.ToMany;
 @Entity
 public class Server {
 
-    private static final int TIMEOUT = 5;
     /**
      * every object has an ID of type long to efficiently get or reference objects
      */
@@ -95,32 +92,28 @@ public class Server {
         return reachable;
     }
 
-    public void setReachable(boolean reachable) {
-        this.reachable = reachable;
+    public String url() {
+        String result = null;
+
+        if (this.ipAddress != null && this.port != null) {
+            result = "http://" + this.ipAddress + ":" + this.port;
+        } else if (this.ipAddress != null) {
+            result = "http://" + this.ipAddress;
+        }
+
+        return URLUtil.isValidUrl(result) ? result : null;
     }
 
-    public void checkIsReachable() {
+    public void checkReachable(final Box<Server> serverBox) {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                boolean result = false;
-
-                if (ipAddress != null && port != null) {
-                    String url = "http://" + ipAddress + ":" + port;
-                    if (URLUtil.isValidUrl(url)) {
-                        try {
-                            InetAddress inetAddress = InetAddress.getByName(url);
-                            result = inetAddress.isReachable(TIMEOUT);
-                        } catch (UnknownHostException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                boolean wasReachable = reachable;
+                boolean isReachable = WebUtility.isReachable(ipAddress, Integer.parseInt(port));
+                if (wasReachable != isReachable) {
+                    reachable = isReachable;
+                    serverBox.put(Server.this);
                 }
-
-                setReachable(result);
-
             }
         };
         thread.setDaemon(false);
