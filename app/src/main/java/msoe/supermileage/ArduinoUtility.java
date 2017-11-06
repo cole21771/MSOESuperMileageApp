@@ -18,7 +18,7 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-class ArduinoUtility {
+public class ArduinoUtility {
 
     private final String ACTION_USB_PERMISSION = "msoe.supermileage.USB_PERMISSION";
 

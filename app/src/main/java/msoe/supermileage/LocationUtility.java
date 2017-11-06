@@ -12,7 +12,7 @@ import android.support.v4.app.ActivityCompat;
 
 import java.util.Arrays;
 
-class LocationUtility {
+public class LocationUtility {
 
     private final double SPEED_MULTIPLIER = 2.237;
 

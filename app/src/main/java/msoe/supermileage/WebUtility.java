@@ -6,7 +6,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 
 
-class WebUtility {
+public class WebUtility {
     private static final String DATA_ARGUMENT = "newData";
     private static final String LOCATION_ARGUMENT = "newLocation";
 
