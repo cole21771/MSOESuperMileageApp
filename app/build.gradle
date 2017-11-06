@@ -34,8 +34,12 @@ dependencies {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
+    compile 'com.google.code.gson:gson:2.8.2'
+
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
+
     testCompile 'junit:junit:4.12'
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
