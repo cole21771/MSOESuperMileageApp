@@ -1,5 +1,8 @@
 package msoe.supermileage;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.net.URISyntaxException;
 
 import io.socket.client.IO;
@@ -54,6 +57,21 @@ public class WebUtility {
             this.socket.disconnect();
             this.socket = null;
         }
+    }
+
+    public static boolean isReachable(String host, int port) {
+        boolean result = false;
+        try {
+            java.net.Socket socket = new java.net.Socket();
+            SocketAddress socketAddress = new InetSocketAddress(host, port);
+            socket.connect(socketAddress, 1000);
+            socket.close();
+            result = true;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
     }
 
     private void post(String argument, String data) {
