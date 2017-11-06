@@ -20,9 +20,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout3"
-        android:layout_width="361dp"
-        android:layout_height="474dp"
-        android:layout_marginBottom="137dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
@@ -34,25 +33,29 @@
 
         <ImageView
             android:id="@+id/server_available_imageview"
-            android:layout_width="55dp"
-            android:layout_height="49dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@string/server_presence"
             android:src="@android:drawable/presence_offline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/server_name_textview"
+            app:layout_constraintEnd_toStartOf="@+id/server_name_textview"
+            app:layout_constraintTop_toTopOf="@+id/server_name_textview" />
 
         <TextView
             android:id="@+id/server_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:hint="@string/server_name_placeholder"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintBottom_toBottomOf="@+id/server_available_imageview"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
-            app:layout_constraintStart_toEndOf="@+id/server_available_imageview"
-            app:layout_constraintTop_toTopOf="@+id/server_available_imageview"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/status_textview"
@@ -63,17 +66,18 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintBottom_toTopOf="@+id/data_send_togglebutton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/server_available_imageview" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ToggleButton
             android:id="@+id/data_send_togglebutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:textOff="@string/start"
             android:textOn="@string/stop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
