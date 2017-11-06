@@ -2,6 +2,7 @@ package msoe.supermileage.entities;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.relation.ToMany;
 import io.objectbox.relation.ToOne;
 
 /**
@@ -25,6 +26,8 @@ public class Config {
     private String json;
 
     private ToOne<Car> car;
+
+    private ToMany<Measurement> measurements;
 
     public Config() {
         // Entity is expected to have a no-arg constructor
@@ -65,5 +68,13 @@ public class Config {
 
     public void setCar(ToOne<Car> car) {
         this.car = car;
+    }
+
+    public ToMany<Measurement> getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(ToMany<Measurement> measurements) {
+        this.measurements = measurements;
     }
 }
