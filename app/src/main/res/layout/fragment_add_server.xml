@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/server_ip_placeholder"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/serverNameEditText" />
@@ -39,7 +39,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/server_port_placeholder"
-        android:inputType="text"
+        android:inputType="text|numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/serverIPEditText" />
