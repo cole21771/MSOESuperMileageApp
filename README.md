@@ -25,9 +25,10 @@ Required
 Nice to have
 
 - [ ] Pull down to refresh server status.
-- [ ] When you hold down on a server, it should open a dialog box showing the IP of the server
+- [ ] When you hold down on a server, it should open the edit server modal
 - [ ] Information in the dedicated config can be collapsed/expanded
 - [ ] Sliding animations
+- [ ] (Do this last) Send random data from app. Will probably be a separate activity from normal "Main Activity"
 
 Some day
 
