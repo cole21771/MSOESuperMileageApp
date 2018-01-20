@@ -7,30 +7,64 @@ import java.net.URISyntaxException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 
 public class WebUtility {
-    private static final String DATA_ARGUMENT = "newData";
-    private static final String LOCATION_ARGUMENT = "newLocation";
+    protected static final String GET_CONFIG = "getConfig";
+    protected static final String NEW_DATA = "newData";
+    protected static final String LOCATION_ARGUMENT = "newLocation";
 
     private Socket socket;
     private final App app;
 
+    private Emitter.Listener handleSocketConnect = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            System.out.println("Socket connected.");
+            socket.emit(GET_CONFIG);
+        }
+    };
+
+    private Emitter.Listener handleSocketDisconnect = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            System.out.println("Socket disconnected.");
+            socket = null;
+        }
+    };
+
+    private Emitter.Listener handleGetConfig = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            System.out.println("getConfig callback");
+            for (int i = 0; i < args.length; i++) {
+                Object obj = args[i];
+                System.out.printf("Object %d: %n", i, obj);
+            }
+        }
+    };
 
     public WebUtility(App app, ArduinoUtility arduinoUtility, LocationUtility locationUtility) {
+        assert app != null;
+
         this.app = app;
 
         arduinoUtility.handleUsbInput(new ArduinoUtility.UsbInputHandler() {
+
             @Override
             public void onInputReceived(String text) {
-                post(DATA_ARGUMENT, text);
+                postArduinoData(text);
             }
         });
-
         locationUtility.handleLocationInput(new LocationUtility.LocationInputHandler() {
+
             @Override
             public void onInputReceived(String text) {
-                post(LOCATION_ARGUMENT, text);
+                postLocationData(text);
             }
         });
     }
@@ -43,6 +77,9 @@ public class WebUtility {
 
         try {
             this.socket = IO.socket(url);
+            this.socket.on(Socket.EVENT_CONNECT, handleSocketConnect);
+            this.socket.on(Socket.EVENT_DISCONNECT, handleSocketDisconnect);
+            this.socket.on("getConfig", handleGetConfig);
             this.socket.connect();
         } catch (URISyntaxException e) {
             System.out.println(e.getMessage());
@@ -55,7 +92,22 @@ public class WebUtility {
 
         } else {
             this.socket.disconnect();
-            this.socket = null;
+        }
+    }
+
+    public void postArduinoData(String text) {
+        if (socket == null) {
+            System.out.println(String.format("Socket closed. Argument '%s' data '%s'", NEW_DATA, text));
+        } else {
+            socket.emit(NEW_DATA, text);
+        }
+    }
+
+    public void postLocationData(String text) {
+        if (socket == null) {
+            System.out.println(String.format("Socket closed. Argument '%s' data '%s'", LOCATION_ARGUMENT, text));
+        } else {
+            socket.emit(LOCATION_ARGUMENT, text);
         }
     }
 
@@ -72,16 +124,5 @@ public class WebUtility {
             e.printStackTrace();
         }
         return result;
-    }
-
-    private void post(String argument, String data) {
-        assert argument != null;
-        assert data != null;
-
-        if (this.socket == null) {
-            System.out.println(String.format("Socket closed. Argument '%s' data '%s'", argument, data));
-        } else {
-            this.socket.emit(argument, data);
-        }
     }
 }

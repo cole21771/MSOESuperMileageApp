@@ -13,7 +13,8 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(MockitoJUnitRunner.class)
 public class WebUtilityTest {
 
-    WebUtility target;
+    private static final String SAMPLE_DATA = "{\"vehicleType\":\"electric\",\"data\":[{\"label\":\"Speed\",\"color\":\"#f00\",\"min\":0,\"max\":35,\"units\":\"MPH\",\"showGraph\":true,\"displayAlways\":false},{\"label\":\"Motor RPM\",\"color\":\"#0f0\",\"min\":0,\"max\":3500,\"units\":\"RPM\",\"showGraph\":true,\"displayAlways\":false},{\"label\":\"Joules\",\"color\":\"#00f\",\"min\":0,\"max\":1000000,\"units\":\"J\",\"showGraph\":true,\"displayAlways\":true},{\"label\":\"Volts\",\"color\":\"#0ff\",\"min\":0,\"max\":30,\"units\":\"V\",\"showGraph\":true,\"displayAlways\":false},{\"label\":\"Current\",\"color\":\"#f0f\",\"min\":0,\"max\":50,\"units\":\"A\",\"showGraph\":true,\"displayAlways\":false},{\"label\":\"Lap Number\",\"color\":\"#ff7f00\",\"min\":0,\"max\":10,\"units\":\"\",\"showGraph\":false,\"displayAlways\":true}]}";
+    private WebUtility target;
 
     @Mock
     App app;
@@ -40,6 +41,12 @@ public class WebUtilityTest {
     @Test
     public void disconnect() throws Exception {
         target.disconnect();
+    }
+
+    @Test
+    public void postArduinoData() throws Exception {
+        target.connectTo("localhost", "3000");
+        target.postArduinoData(SAMPLE_DATA);
     }
 
     @Test
