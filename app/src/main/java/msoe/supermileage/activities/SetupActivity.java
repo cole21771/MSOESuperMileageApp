@@ -26,17 +26,14 @@ public class SetupActivity
 
     private App app;
 
-
     private Toolbar toolbar;
 
     private Box<Server> serverBox;
     private Box<Config> configBox;
 
     private List<Server> servers;
-    private List<Config> localConfigs, remoteConfigs;
 
     private Server selectedServer;
-    private Config selectedConfig;
 
     public enum SetupActivityFragmentType {
         NONE,
@@ -62,8 +59,6 @@ public class SetupActivity
         this.app.setActivity(this);
 
         this.servers = new ArrayList<>(10);
-        this.localConfigs = new ArrayList<>(10);
-        this.remoteConfigs = new ArrayList<>(10);
 
         BoxStore boxStore = this.app.getBoxStore();
         this.serverBox = boxStore.boxFor(Server.class);
@@ -141,7 +136,7 @@ public class SetupActivity
         refreshServers();
     }
 
-    private void refreshServers() {
+    public void refreshServers() {
         this.servers.clear();
         this.servers.addAll(serverBox.getAll());
 
@@ -155,7 +150,6 @@ public class SetupActivity
         intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.selectedServer.getName());
         intent.putExtra(App.EXTRA_SM_SERVER_IP, this.selectedServer.getIpAddress());
         intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.selectedServer.getPort());
-        intent.putExtra(App.EXTRA_SM_CONFIG, this.selectedConfig.getJson());
         startActivity(intent);
     }
 
