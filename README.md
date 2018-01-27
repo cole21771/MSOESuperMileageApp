@@ -13,10 +13,9 @@
 
 Required
 
-- [ ] update wireframes
+- [X] update wireframes
 - [ ] pushing data to the server
 - [ ] server details editing
-- [ ] simple server authentication
 - [ ] Verify that the amount of data from the arduino matches the amount of data in the config json.
 - [ ] A status indicator will show if the server is connected at any given time.
 - [ ] If a connection is lost, the app will try to resume it.
@@ -32,6 +31,7 @@ Nice to have
 
 Some day
 
+- [ ] simple server authentication
 - [ ] Be able to talk back to the Arduino
 - [ ] Be able to receive data from the Arduino with 100% consistency
 
