@@ -11,7 +11,7 @@ import io.socket.emitter.Emitter;
 
 
 public class WebUtility {
-    protected static final String GET_CONFIG = "getConfig";
+    protected static final String GET_SELECTED_CONFIG = "getSelectedConfig";
     protected static final String NEW_DATA = "newData";
     protected static final String LOCATION_ARGUMENT = "newLocation";
 
@@ -23,7 +23,7 @@ public class WebUtility {
         @Override
         public void call(Object... args) {
             System.out.println("Socket connected.");
-            socket.emit(GET_CONFIG);
+            socket.emit(GET_SELECTED_CONFIG);
         }
     };
 
@@ -79,7 +79,7 @@ public class WebUtility {
             this.socket = IO.socket(url);
             this.socket.on(Socket.EVENT_CONNECT, handleSocketConnect);
             this.socket.on(Socket.EVENT_DISCONNECT, handleSocketDisconnect);
-            this.socket.on("getConfig", handleGetConfig);
+            this.socket.on(GET_SELECTED_CONFIG, handleGetConfig);
             this.socket.connect();
         } catch (URISyntaxException e) {
             System.out.println(e.getMessage());
