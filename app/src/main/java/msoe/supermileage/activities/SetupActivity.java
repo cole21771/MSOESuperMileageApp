@@ -14,24 +14,15 @@ import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import msoe.supermileage.App;
 import msoe.supermileage.R;
-import msoe.supermileage.entities.Car;
 import msoe.supermileage.entities.Config;
 import msoe.supermileage.entities.Server;
-import msoe.supermileage.fragments.AddCarFragment;
-import msoe.supermileage.fragments.AddConfigFragment;
 import msoe.supermileage.fragments.AddServerFragment;
-import msoe.supermileage.fragments.SelectCarFragment;
-import msoe.supermileage.fragments.SelectConfigFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
 
 public class SetupActivity
         extends AppCompatActivity
         implements SelectServerFragment.OnFragmentInteractionListener,
-        SelectCarFragment.OnFragmentInteractionListener,
-        AddServerFragment.OnFragmentInteractionListener,
-        AddCarFragment.OnFragmentInteractionListener,
-        SelectConfigFragment.OnFragmentInteractionListener,
-        AddConfigFragment.OnFragmentInteractionListener {
+        AddServerFragment.OnFragmentInteractionListener {
 
     private App app;
 
@@ -39,59 +30,28 @@ public class SetupActivity
     private Toolbar toolbar;
 
     private Box<Server> serverBox;
-    private Box<Car> carBox;
     private Box<Config> configBox;
 
     private List<Server> servers;
-    private List<Car> localCars, remoteCars;
     private List<Config> localConfigs, remoteConfigs;
 
-
     private Server selectedServer;
-    private Car selectedCar;
     private Config selectedConfig;
 
     public enum SetupActivityFragmentType {
         NONE,
         SELECT_SERVER,
-        ADD_SERVER,
-        SELECT_CAR,
-        ADD_CAR,
-        SELECT_CONFIG,
-        ADD_CONFIG
+        ADD_SERVER
     }
 
     public List<Server> getServers() {
         return servers;
     }
 
-    public List<Car> getLocalCars() {
-        return localCars;
-    }
-
-    public List<Car> getRemoteCars() {
-        return remoteCars;
-    }
-
-    public List<Config> getLocalConfigs() {
-        return localConfigs;
-    }
-
-    public List<Config> getRemoteConfigs() {
-        return remoteConfigs;
-    }
-
     public Server getSelectedServer() {
         return selectedServer;
     }
 
-    public Car getSelectedCar() {
-        return selectedCar;
-    }
-
-    public Config getSelectedConfig() {
-        return selectedConfig;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,14 +62,11 @@ public class SetupActivity
         this.app.setActivity(this);
 
         this.servers = new ArrayList<>(10);
-        this.localCars = new ArrayList<>(10);
-        this.remoteCars = new ArrayList<>(10);
         this.localConfigs = new ArrayList<>(10);
         this.remoteConfigs = new ArrayList<>(10);
 
         BoxStore boxStore = this.app.getBoxStore();
         this.serverBox = boxStore.boxFor(Server.class);
-        this.carBox = boxStore.boxFor(Car.class);
         this.configBox = boxStore.boxFor(Config.class);
 
         refreshServers();
@@ -156,20 +113,6 @@ public class SetupActivity
             case ADD_SERVER:
                 fragment = new AddServerFragment();
                 break;
-            case SELECT_CAR:
-                fragment = new SelectCarFragment();
-                this.toolbar.setTitle(this.selectedServer.getName());
-                break;
-            case ADD_CAR:
-                fragment = new AddCarFragment();
-                break;
-            case SELECT_CONFIG:
-                fragment = new SelectConfigFragment();
-                this.toolbar.setTitle(this.selectedCar.getName());
-                break;
-            case ADD_CONFIG:
-                fragment = new AddConfigFragment();
-                break;
             default:
                 break;
         }
@@ -184,30 +127,11 @@ public class SetupActivity
     }
 
     @Override
-    public void selectConfig(Config config) {
-        assert config != null;
-
-        this.selectedConfig = config;
-        refreshConfigs();
-        this.finishSetup();
-    }
-
-    @Override
-    public void selectCar(Car car) {
-        assert car != null;
-
-        this.selectedCar = car;
-        refreshConfigs();
-        this.swapFragments(SetupActivityFragmentType.SELECT_CONFIG);
-    }
-
-    @Override
     public void selectServer(Server server) {
         assert server != null;
 
         this.selectedServer = server;
-        refreshCars();
-        this.swapFragments(SetupActivityFragmentType.SELECT_CAR);
+        // TODO server review screen
     }
 
     @Override
@@ -217,22 +141,6 @@ public class SetupActivity
         refreshServers();
     }
 
-    @Override
-    public void addCar(String name) {
-        Car car = new Car(name);
-        carBox.put(car);
-//        selectedServer.getCars().add(car);
-        refreshCars();
-    }
-
-    @Override
-    public void addConfig(String name, String json) {
-        Config config = new Config(name, json);
-        configBox.put(config);
-//        selectedCar.getConfigs().add(config);
-        refreshConfigs();
-    }
-
     private void refreshServers() {
         this.servers.clear();
         this.servers.addAll(serverBox.getAll());
@@ -240,22 +148,6 @@ public class SetupActivity
         for (final Server server : this.servers) {
             server.checkReachable(serverBox);
         }
-    }
-
-    private void refreshCars() {
-        this.localCars.clear();
-        this.localCars.addAll(carBox.getAll());
-
-        this.remoteCars.clear();
-//        this.remoteCars.addAll(this.selectedServer.getCars().toArray());
-    }
-
-    private void refreshConfigs() {
-        this.localConfigs.clear();
-        this.localConfigs.addAll(configBox.getAll());
-
-        this.remoteConfigs.clear();
-//        this.remoteConfigs.addAll(this.selectedCar.getConfigs().toArray());
     }
 
     private void finishSetup() {

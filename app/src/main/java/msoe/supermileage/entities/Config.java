@@ -3,7 +3,6 @@ package msoe.supermileage.entities;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToMany;
-import io.objectbox.relation.ToOne;
 
 /**
  * The @Entity annotation identifies Server as a persistable entity.
@@ -24,8 +23,6 @@ public class Config {
     private String name;
 
     private String json;
-
-    private ToOne<Car> car;
 
     private ToMany<Measurement> measurements;
 
@@ -60,14 +57,6 @@ public class Config {
 
     public void setJson(String json) {
         this.json = json;
-    }
-
-    public ToOne<Car> getCar() {
-        return car;
-    }
-
-    public void setCar(ToOne<Car> car) {
-        this.car = car;
     }
 
     public ToMany<Measurement> getMeasurements() {

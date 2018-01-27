@@ -3,11 +3,10 @@ package msoe.supermileage.entities;
 import android.webkit.URLUtil;
 
 import io.objectbox.Box;
-import io.objectbox.annotation.Backlink;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Transient;
-import io.objectbox.relation.ToMany;
+import io.objectbox.relation.ToOne;
 import msoe.supermileage.WebUtility;
 
 /**
@@ -32,11 +31,10 @@ public class Server {
 
     private String name;
 
+    private ToOne<Config> config;
+
     @Transient
     private boolean reachable;
-
-    @Backlink
-    private ToMany<Car> cars;
 
     public Server() {
         // Entity is expected to have a no-arg constructor
@@ -80,12 +78,12 @@ public class Server {
         this.name = name;
     }
 
-    public ToMany<Car> getCars() {
-        return cars;
+    public ToOne<Config> getConfig() {
+        return config;
     }
 
-    public void setCars(ToMany<Car> cars) {
-        this.cars = cars;
+    public void setConfig(ToOne<Config> config) {
+        this.config = config;
     }
 
     public boolean isReachable() {
