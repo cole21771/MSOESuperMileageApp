@@ -17,12 +17,14 @@ import msoe.supermileage.R;
 import msoe.supermileage.entities.Config;
 import msoe.supermileage.entities.Server;
 import msoe.supermileage.fragments.AddServerFragment;
+import msoe.supermileage.fragments.ConfirmServerFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
 
 public class SetupActivity
         extends AppCompatActivity
         implements SelectServerFragment.OnFragmentInteractionListener,
-        AddServerFragment.OnFragmentInteractionListener {
+        AddServerFragment.OnFragmentInteractionListener,
+        ConfirmServerFragment.OnFragmentInteractionListener {
 
     private App app;
 
@@ -38,7 +40,8 @@ public class SetupActivity
     public enum SetupActivityFragmentType {
         NONE,
         SELECT_SERVER,
-        ADD_SERVER
+        ADD_SERVER,
+        CONFIRM_SERVER,
     }
 
     public List<Server> getServers() {
@@ -96,8 +99,9 @@ public class SetupActivity
 
     @Override
     public void swapFragments(SetupActivityFragmentType type) {
-        Fragment fragment = null;
+        assert type != SetupActivityFragmentType.NONE;
 
+        Fragment fragment = null;
 
         switch (type) {
             case NONE:
@@ -107,6 +111,9 @@ public class SetupActivity
                 break;
             case ADD_SERVER:
                 fragment = new AddServerFragment();
+                break;
+            case CONFIRM_SERVER:
+                fragment = new ConfirmServerFragment();
                 break;
             default:
                 break;
@@ -126,11 +133,15 @@ public class SetupActivity
         assert server != null;
 
         this.selectedServer = server;
-        // TODO server review screen
+        this.swapFragments(SetupActivityFragmentType.CONFIRM_SERVER);
     }
 
     @Override
     public void addServer(String name, String ipAddress, String port) {
+        assert name != null;
+        assert ipAddress != null;
+        assert port != null;
+
         Server server = new Server(name, ipAddress, port);
         serverBox.put(server);
         refreshServers();
