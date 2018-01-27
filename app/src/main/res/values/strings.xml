@@ -18,7 +18,7 @@
     <string name="remote_cars">Server Cars</string>
     <string name="remote_configs">Server Configs</string>
 
-    <string name="save">Save</string>
+    <string name="save_server">Save</string>
 
     <string name="server_ip">Server IP</string>
     <string name="server_ip_placeholder">Server IP</string>
