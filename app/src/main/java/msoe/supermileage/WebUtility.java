@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.URISyntaxException;
 
+import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -18,33 +19,31 @@ public class WebUtility {
     private Socket socket;
     private final App app;
 
-    private Emitter.Listener handleSocketConnect = new Emitter.Listener() {
+    private Emitter.Listener connectHandler = new Emitter.Listener() {
 
         @Override
         public void call(Object... args) {
+
             System.out.println("Socket connected.");
-            socket.emit(GET_SELECTED_CONFIG);
+            socket.emit(GET_SELECTED_CONFIG, "Yo", new Ack() {
+
+                @Override
+                public void call(Object... args) {
+                    System.out.println("getConfig callback");
+                    for (int i = 0; i < args.length; i++) {
+                        Object obj = args[i];
+                        System.out.printf("Object %d: %n", i, obj);
+                    }
+                }
+            });
         }
     };
 
-    private Emitter.Listener handleSocketDisconnect = new Emitter.Listener() {
-
+    private Emitter.Listener disconnectListener = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             System.out.println("Socket disconnected.");
             socket = null;
-        }
-    };
-
-    private Emitter.Listener handleGetConfig = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            System.out.println("getConfig callback");
-            for (int i = 0; i < args.length; i++) {
-                Object obj = args[i];
-                System.out.printf("Object %d: %n", i, obj);
-            }
         }
     };
 
@@ -77,9 +76,8 @@ public class WebUtility {
 
         try {
             this.socket = IO.socket(url);
-            this.socket.on(Socket.EVENT_CONNECT, handleSocketConnect);
-            this.socket.on(Socket.EVENT_DISCONNECT, handleSocketDisconnect);
-            this.socket.on(GET_SELECTED_CONFIG, handleGetConfig);
+            this.socket.on(Socket.EVENT_CONNECT, connectHandler);
+            this.socket.on(Socket.EVENT_DISCONNECT, disconnectListener);
             this.socket.connect();
         } catch (URISyntaxException e) {
             System.out.println(e.getMessage());
@@ -89,14 +87,16 @@ public class WebUtility {
 
     public void disconnect() {
         if (this.socket == null) {
-
+            System.out.println("Socket null");
+        } else if (!socket.connected()) {
+            System.out.println("Socket already disconnected");
         } else {
             this.socket.disconnect();
         }
     }
 
     public void postArduinoData(String text) {
-        if (socket == null) {
+        if (socket == null || !socket.connected()) {
             System.out.println(String.format("Socket closed. Argument '%s' data '%s'", NEW_DATA, text));
         } else {
             socket.emit(NEW_DATA, text);
@@ -104,7 +104,7 @@ public class WebUtility {
     }
 
     public void postLocationData(String text) {
-        if (socket == null) {
+        if (socket == null || !socket.connected()) {
             System.out.println(String.format("Socket closed. Argument '%s' data '%s'", LOCATION_ARGUMENT, text));
         } else {
             socket.emit(LOCATION_ARGUMENT, text);
