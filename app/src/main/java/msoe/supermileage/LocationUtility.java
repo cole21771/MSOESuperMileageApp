@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class LocationUtility {
 
-    private final double SPEED_MULTIPLIER = 2.237;
+    private final double MPS_TO_MPH = 2.237;
 
     private final App app;
 
@@ -27,7 +27,7 @@ public class LocationUtility {
                                 location.getLatitude(),
                                 location.getLongitude(),
                                 location.getAltitude(),
-                                location.getSpeed() * SPEED_MULTIPLIER
+                                location.getSpeed() * MPS_TO_MPH
                         }
                 );
                 locationInputHandler.onInputReceived(locationText);
