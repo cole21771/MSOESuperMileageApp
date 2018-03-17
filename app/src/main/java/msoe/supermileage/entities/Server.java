@@ -10,9 +10,12 @@ import io.objectbox.relation.ToOne;
 import msoe.supermileage.WebUtility;
 
 /**
+ * The information stored for a server.
+ * <p>
  * The @Entity annotation identifies Server as a persistable entity.
  * This will trigger ObjectBox to generate persistence code tailored for this class.
  *
+ * @author braithwaitec
  * @link http://objectbox.io/documentation/entity-annotations/
  * @link http://objectbox.io/documentation/relations/
  */

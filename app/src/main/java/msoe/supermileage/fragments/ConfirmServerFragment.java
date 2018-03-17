@@ -12,7 +12,11 @@ import msoe.supermileage.R;
 import msoe.supermileage.activities.SetupActivity;
 
 /**
+ * UI for confirming a server.
+ * <p>
  * A simple {@link Fragment} subclass.
+ *
+ * @author braithwaitec
  */
 public class ConfirmServerFragment extends Fragment {
 

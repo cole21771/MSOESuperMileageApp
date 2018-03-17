@@ -21,10 +21,14 @@ import msoe.supermileage.entities.Server;
 
 
 /**
+ * UI for selecting a server.
+ * <p>
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link SelectServerFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
+ *
+ * @author braithwaitec
  */
 public class SelectServerFragment extends Fragment {
 

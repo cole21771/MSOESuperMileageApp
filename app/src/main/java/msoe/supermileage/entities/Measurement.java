@@ -6,9 +6,12 @@ import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToOne;
 
 /**
+ * An individual measurement that makes up a config file.
+ * <p>
  * The @Entity annotation identifies Server as a persistable entity.
  * This will trigger ObjectBox to generate persistence code tailored for this class.
  *
+ * @author braithwaitec
  * @link http://objectbox.io/documentation/entity-annotations/
  * @link http://objectbox.io/documentation/relations/
  */
@@ -34,7 +37,7 @@ public class Measurement {
 
     private ToOne<Config> config;
 
-    public Measurement () {
+    public Measurement() {
         // Entity is expected to have a no-arg constructor
     }
 

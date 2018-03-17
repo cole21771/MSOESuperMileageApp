@@ -8,6 +8,11 @@ import android.location.LocationManager;
 import io.objectbox.BoxStore;
 import msoe.supermileage.entities.MyObjectBox;
 
+/**
+ * Holds global application state.
+ *
+ * @author braithwaitec
+ */
 public class App extends Application {
 
     public static final String EXTRA_SM_SERVER_NAME = "msoe.supermileage.EXTRA_SM_SERVER_NAME";

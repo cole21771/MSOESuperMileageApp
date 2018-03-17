@@ -20,6 +20,11 @@ import msoe.supermileage.fragments.AddServerFragment;
 import msoe.supermileage.fragments.ConfirmServerFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
 
+/**
+ * Activity that handles selecting/editing the server that will be communicated with.
+ *
+ * @author braithwaitec
+ */
 public class SetupActivity
         extends AppCompatActivity
         implements SelectServerFragment.OnFragmentInteractionListener,

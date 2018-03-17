@@ -9,6 +9,11 @@ import android.os.Bundle;
 
 import java.util.Arrays;
 
+/**
+ * Handles getting location information from the Android device.
+ *
+ * @author braithwaitec
+ */
 public class LocationUtility {
 
     private final double MPS_TO_MPH = 2.237;

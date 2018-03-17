@@ -15,10 +15,14 @@ import msoe.supermileage.R;
 import msoe.supermileage.activities.SetupActivity;
 
 /**
+ * UI for adding a server.
+ *
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link AddServerFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
+ *
+ * @author braithwaitec
  */
 public class AddServerFragment extends Fragment {
 

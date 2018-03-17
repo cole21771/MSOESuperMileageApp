@@ -5,9 +5,12 @@ import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToMany;
 
 /**
+ * Represents a configuration file that comes from a server.
+ * <p>
  * The @Entity annotation identifies Server as a persistable entity.
  * This will trigger ObjectBox to generate persistence code tailored for this class.
  *
+ * @author braithwaitec
  * @link http://objectbox.io/documentation/entity-annotations/
  * @link http://objectbox.io/documentation/relations/
  */

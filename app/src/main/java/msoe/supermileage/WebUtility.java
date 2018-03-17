@@ -10,7 +10,11 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-
+/**
+ * Utilities for working over the web.
+ *
+ * @author braithwaitec
+ */
 public class WebUtility {
     protected static final String GET_SELECTED_CONFIG = "getSelectedConfig";
     protected static final String NEW_DATA = "newData";

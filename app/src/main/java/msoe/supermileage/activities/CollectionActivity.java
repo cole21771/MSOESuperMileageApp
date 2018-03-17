@@ -22,6 +22,11 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
+/**
+ * Activity that collects data from an Arduino and sends it to a server.
+ *
+ * @author braithwaitec
+ */
 @RuntimePermissions
 public class CollectionActivity extends AppCompatActivity {
     private App app;
