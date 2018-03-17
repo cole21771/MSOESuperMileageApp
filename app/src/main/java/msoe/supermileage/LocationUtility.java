@@ -31,7 +31,6 @@ public class LocationUtility {
                         new Double[]{
                                 location.getLatitude(),
                                 location.getLongitude(),
-                                location.getAltitude(),
                                 location.getSpeed() * MPS_TO_MPH
                         }
                 );
