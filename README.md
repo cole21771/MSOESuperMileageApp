@@ -13,13 +13,14 @@
 
 Required
 
-- [X] update wireframes
-- [ ] pushing data to the server
-- [ ] server details editing
+- [X] Update wireframes
+- [ ] Send Arduino and Location data to a server
+- [ ] Be able to edit server details
 - [ ] Verify that the amount of data from the arduino matches the amount of data in the config json.
-- [ ] A status indicator will show if the server is connected at any given time.
-- [ ] If a connection is lost, the app will try to resume it.
+- [ ] Show a status indicator for if the server is connected at any given time.
+- [ ] If a server connection is lost, try to reconnect.
 - [ ] Add a dedicated view for the information of a config file.
+- [ ] Use high accuracy GPS polling.
 
 Nice to have
 
