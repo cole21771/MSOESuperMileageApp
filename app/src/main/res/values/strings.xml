@@ -33,4 +33,6 @@
     <string name="status_placeholder">Status</string>
     <string name="server_presence">Server Presence</string>
     <string name="server_reachability_true">Server is reachable</string>
+    <string name="reload">Reload</string>
+    <string name="configuration_unavailable">Configuration Unavailable</string>
 </resources>
