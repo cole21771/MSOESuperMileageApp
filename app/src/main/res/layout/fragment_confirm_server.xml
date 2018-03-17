@@ -29,7 +29,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="16dp"
-            android:text="@string/reload"
+            android:text="@string/config_reload"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/selectServerBtn"
             app:layout_constraintStart_toStartOf="parent" />
@@ -41,7 +41,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="40dp"
-            android:text="@string/select"
+            android:text="@string/config_confirm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/reloadBtn" />

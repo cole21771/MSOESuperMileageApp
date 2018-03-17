@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import msoe.supermileage.R;
 import msoe.supermileage.activities.SetupActivity;
@@ -47,6 +48,20 @@ public class ConfirmServerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_confirm_server, container, false);
+
+        Button reloadBtn = view.findViewById(R.id.reloadBtn);
+        reloadBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+
+        Button selectServerBtn = view.findViewById(R.id.selectServerBtn);
+        selectServerBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
 
         return view;
     }
