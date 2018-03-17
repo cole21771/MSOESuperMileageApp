@@ -152,6 +152,15 @@ public class SetupActivity
         refreshServers();
     }
 
+    @Override
+    public void confirmServer() {
+        Intent intent = new Intent(this, CollectionActivity.class);
+        intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.selectedServer.getName());
+        intent.putExtra(App.EXTRA_SM_SERVER_IP, this.selectedServer.getIpAddress());
+        intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.selectedServer.getPort());
+        startActivity(intent);
+    }
+
     public void refreshServers() {
         this.servers.clear();
         this.servers.addAll(serverBox.getAll());
@@ -159,14 +168,6 @@ public class SetupActivity
         for (final Server server : this.servers) {
             server.checkReachable(serverBox);
         }
-    }
-
-    private void finishSetup() {
-        Intent intent = new Intent(this, CollectionActivity.class);
-        intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.selectedServer.getName());
-        intent.putExtra(App.EXTRA_SM_SERVER_IP, this.selectedServer.getIpAddress());
-        intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.selectedServer.getPort());
-        startActivity(intent);
     }
 
 }

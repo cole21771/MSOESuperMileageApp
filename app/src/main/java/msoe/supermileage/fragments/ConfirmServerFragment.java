@@ -37,6 +37,8 @@ public class ConfirmServerFragment extends Fragment {
         void swapFragments(SetupActivity.SetupActivityFragmentType type);
 
         void addServer(String name, String ipAddress, String port);
+
+        void confirmServer();
     }
 
     public ConfirmServerFragment() {
@@ -59,7 +61,7 @@ public class ConfirmServerFragment extends Fragment {
         Button selectServerBtn = view.findViewById(R.id.selectServerBtn);
         selectServerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                listener.confirmServer();
             }
         });
 
