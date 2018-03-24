@@ -40,8 +40,6 @@ public class SetupActivity
 
     private List<Server> servers;
 
-    private Server selectedServer;
-
     public enum SetupActivityFragmentType {
         NONE,
         SELECT_SERVER,
@@ -51,10 +49,6 @@ public class SetupActivity
 
     public List<Server> getServers() {
         return servers;
-    }
-
-    public Server getSelectedServer() {
-        return selectedServer;
     }
 
 
@@ -137,7 +131,7 @@ public class SetupActivity
     public void selectServer(Server server) {
         assert server != null;
 
-        this.selectedServer = server;
+        this.app.setSelectedServer(server);
         this.swapFragments(SetupActivityFragmentType.CONFIRM_SERVER);
     }
 
@@ -155,9 +149,9 @@ public class SetupActivity
     @Override
     public void confirmServer() {
         Intent intent = new Intent(this, CollectionActivity.class);
-        intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.selectedServer.getName());
-        intent.putExtra(App.EXTRA_SM_SERVER_IP, this.selectedServer.getIpAddress());
-        intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.selectedServer.getPort());
+        intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.app.getSelectedServer().getName());
+        intent.putExtra(App.EXTRA_SM_SERVER_IP, this.app.getSelectedServer().getIpAddress());
+        intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.app.getSelectedServer().getPort());
         startActivity(intent);
     }
 
