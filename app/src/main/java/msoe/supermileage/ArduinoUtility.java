@@ -15,6 +15,8 @@ import com.felhr.usbserial.UsbSerialInterface;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 
+import org.json.JSONArray;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -28,12 +30,13 @@ import msoe.supermileage.entities.Config;
 public class ArduinoUtility {
 
     private final String ACTION_USB_PERMISSION = "msoe.supermileage.USB_PERMISSION";
-    private final String TOKEN_ENTRY = "[";
-    private final String TOKEN_EXIT = "]";
+    private final char TOKEN_PACKET_START = '[';
+    private final char TOKEN_PACKET_END = ']';
+    private final String TOKEN_PACKET_SEPARATOR = ",";
     private final String TOKEN_DATA = "D";
     private final String TOKEN_ERROR = "E";
-    private final String TOKEN_MARKER = "M";
     private final String TOKEN_GENERAL = "G";
+    private final String TOKEN_MARKER = "M";
     private final String TOKEN_TRIGGER = "T";
     private final String TOKEN_RESPONSE = "R";
 
@@ -67,6 +70,18 @@ public class ArduinoUtility {
 
     public interface UsbInputHandler {
         void onInputReceived(String text);
+
+        void onDataPacketReceived(JSONArray jsonArray);
+
+        void onGeneralPacketReceived(JSONArray jsonArray);
+
+        void onErrorPacketReceived(JSONArray jsonArray);
+
+        void onMarkerPacketReceived(JSONArray jsonArray);
+
+        void onResponsePacketReceived(JSONArray jsonArray);
+
+        void onTriggerPacketReceived(JSONArray jsonArray);
     }
 
     public ArduinoUtility(App app) {
@@ -118,6 +133,7 @@ public class ArduinoUtility {
 
     /**
      * Set how this class formats the data that will be sent to the usb input handlers
+     *
      * @param config
      */
     public void setupFromConfig(Config config) {
@@ -178,8 +194,66 @@ public class ArduinoUtility {
     private void processInput(String bytesAsText) {
         this.inputBuilder.append(bytesAsText);
 
-        
+        int startIndex = -1;
+        int endIndex = -1;
+        int i = 0;
+        while (i < this.inputBuilder.length() && (startIndex == -1 || endIndex == -1)) {
+            char c = this.inputBuilder.charAt(i);
 
-        this.usbInputHandler.onInputReceived(bytesAsText);
+            // find the first starting character
+            if (startIndex == -1) {
+                if (c == TOKEN_PACKET_START) {
+                    startIndex = i;
+                }
+            }
+
+            // find the first ending character
+            else {
+                if (c == TOKEN_PACKET_END) {
+                    endIndex = i;
+                }
+            }
+
+            i++;
+        }
+
+        // extract a substring with the packet
+        String packet = this.inputBuilder.substring(startIndex + 1, endIndex - 1);
+        String[] packetPieces = packet.split(TOKEN_PACKET_SEPARATOR);
+        JSONArray jsonArray = new JSONArray();
+        for (int j = 1; j < packetPieces.length; j++) {
+            jsonArray.put(packetPieces[j]);
+        }
+
+        // determine the type of packet and send it
+        switch (packetPieces[0]) {
+            case TOKEN_DATA: {
+                this.usbInputHandler.onDataPacketReceived(jsonArray);
+                break;
+            }
+            case TOKEN_GENERAL: {
+                this.usbInputHandler.onGeneralPacketReceived(jsonArray);
+                break;
+            }
+            case TOKEN_ERROR: {
+                this.usbInputHandler.onErrorPacketReceived(jsonArray);
+                break;
+            }
+            case TOKEN_MARKER: {
+                this.usbInputHandler.onMarkerPacketReceived(jsonArray);
+                break;
+            }
+            case TOKEN_RESPONSE: {
+                this.usbInputHandler.onResponsePacketReceived(jsonArray);
+                break;
+            }
+            case TOKEN_TRIGGER: {
+                this.usbInputHandler.onTriggerPacketReceived(jsonArray);
+                break;
+            }
+        }
+
+        // delete the builder from 0 to end index
+        this.inputBuilder.delete(0, endIndex);
     }
 }
