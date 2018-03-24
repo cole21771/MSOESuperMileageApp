@@ -14,13 +14,11 @@
 Required
 
 - [X] Update wireframes
-- [ ] Send Arduino and Location data to a server
+- [X] Send Arduino and Location data to a server
+- [ ] Use high accuracy GPS polling.
 - [ ] Be able to edit server details
-- [ ] Verify that the amount of data from the arduino matches the amount of data in the config json.
 - [ ] Show a status indicator for if the server is connected at any given time.
 - [ ] If a server connection is lost, try to reconnect.
-- [ ] Add a dedicated view for the information of a config file.
-- [ ] Use high accuracy GPS polling.
 
 Nice to have
 
@@ -35,6 +33,8 @@ Some day
 - [ ] simple server authentication
 - [ ] Be able to talk back to the Arduino
 - [ ] Be able to receive data from the Arduino with 100% consistency
+- [ ] Verify that the amount of data from the arduino matches the amount of data in the config json.
+- [ ] Add a dedicated view for the information of a config file.
 
 ### Issues
 
