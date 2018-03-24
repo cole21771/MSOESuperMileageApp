@@ -80,9 +80,8 @@ public class WebUtility {
                         System.out.printf("Object %d: %n", i, obj);
                     }
                     if (args.length == 1) {
-                        String jsonString = (String) args[0];
                         try {
-                            JSONObject jsonObject = new JSONObject(jsonString);
+                            JSONObject jsonObject = (JSONObject) args[0];
                             if (jsonObject.getBoolean(GET_SELECTED_CONFIG_ERROR)) {
                                 System.out.println(jsonObject.getString(GET_SELECTED_CONFIG_DATA));
                             } else {
