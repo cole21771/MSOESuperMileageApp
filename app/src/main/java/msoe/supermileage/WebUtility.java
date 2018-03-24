@@ -19,6 +19,9 @@ public class WebUtility {
     protected static final String GET_SELECTED_CONFIG = "getSelectedConfig";
     protected static final String NEW_DATA = "newData";
     protected static final String LOCATION_ARGUMENT = "newLocation";
+    protected static final String BATTERY_ARGUMENT = "batteryLife";
+    protected static final String GET_SELECTED_CONFIG_ERROR = "error";
+    protected static final String GET_SELECTED_CONFIG_DATA = "data";
 
     private Socket socket;
     private final App app;
