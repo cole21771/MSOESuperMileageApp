@@ -69,8 +69,6 @@ public class ArduinoUtility {
     private UsbInputHandler usbInputHandler;
 
     public interface UsbInputHandler {
-        void onInputReceived(String text);
-
         void onDataPacketReceived(JSONArray jsonArray);
 
         void onGeneralPacketReceived(JSONArray jsonArray);
@@ -217,43 +215,46 @@ public class ArduinoUtility {
             i++;
         }
 
-        // extract a substring with the packet
-        String packet = this.inputBuilder.substring(startIndex + 1, endIndex - 1);
-        String[] packetPieces = packet.split(TOKEN_PACKET_SEPARATOR);
-        JSONArray jsonArray = new JSONArray();
-        for (int j = 1; j < packetPieces.length; j++) {
-            jsonArray.put(packetPieces[j]);
-        }
+        // process packet if there is one
+        if (startIndex != -1 && endIndex != -1) {
+            // extract a substring with the packet
+            String packet = this.inputBuilder.substring(startIndex + 1, endIndex - 1);
+            String[] packetPieces = packet.split(TOKEN_PACKET_SEPARATOR);
+            JSONArray jsonArray = new JSONArray();
+            for (int j = 1; j < packetPieces.length; j++) {
+                jsonArray.put(packetPieces[j]);
+            }
 
-        // determine the type of packet and send it
-        switch (packetPieces[0]) {
-            case TOKEN_DATA: {
-                this.usbInputHandler.onDataPacketReceived(jsonArray);
-                break;
+            // determine the type of packet and send it
+            switch (packetPieces[0]) {
+                case TOKEN_DATA: {
+                    this.usbInputHandler.onDataPacketReceived(jsonArray);
+                    break;
+                }
+                case TOKEN_GENERAL: {
+                    this.usbInputHandler.onGeneralPacketReceived(jsonArray);
+                    break;
+                }
+                case TOKEN_ERROR: {
+                    this.usbInputHandler.onErrorPacketReceived(jsonArray);
+                    break;
+                }
+                case TOKEN_MARKER: {
+                    this.usbInputHandler.onMarkerPacketReceived(jsonArray);
+                    break;
+                }
+                case TOKEN_RESPONSE: {
+                    this.usbInputHandler.onResponsePacketReceived(jsonArray);
+                    break;
+                }
+                case TOKEN_TRIGGER: {
+                    this.usbInputHandler.onTriggerPacketReceived(jsonArray);
+                    break;
+                }
             }
-            case TOKEN_GENERAL: {
-                this.usbInputHandler.onGeneralPacketReceived(jsonArray);
-                break;
-            }
-            case TOKEN_ERROR: {
-                this.usbInputHandler.onErrorPacketReceived(jsonArray);
-                break;
-            }
-            case TOKEN_MARKER: {
-                this.usbInputHandler.onMarkerPacketReceived(jsonArray);
-                break;
-            }
-            case TOKEN_RESPONSE: {
-                this.usbInputHandler.onResponsePacketReceived(jsonArray);
-                break;
-            }
-            case TOKEN_TRIGGER: {
-                this.usbInputHandler.onTriggerPacketReceived(jsonArray);
-                break;
-            }
-        }
 
-        // delete the builder from 0 to end index
-        this.inputBuilder.delete(0, endIndex);
+            // delete the builder from 0 to end index
+            this.inputBuilder.delete(0, endIndex + 1);
+        }
     }
 }
