@@ -5,8 +5,13 @@ import android.app.Application;
 import android.content.Context;
 import android.location.LocationManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.objectbox.BoxStore;
+import msoe.supermileage.entities.Config;
 import msoe.supermileage.entities.MyObjectBox;
+import msoe.supermileage.entities.Server;
 
 /**
  * Holds global application state.
@@ -30,6 +35,15 @@ public class App extends Application {
     private LocationUtility locationUtility;
     private ArduinoUtility arduinoUtility;
     private Activity currentActivity;
+    private Server selectedServer;
+
+    public Server getSelectedServer() {
+        return this.selectedServer;
+    }
+
+    public void setSelectedServer(Server selectedServer) {
+        this.selectedServer = selectedServer;
+    }
 
     @Override
     public void onCreate() {
@@ -74,4 +88,13 @@ public class App extends Application {
         this.arduinoUtility.disconnect();
     }
 
+    /**
+     * Called when the configuration is sent.
+     *
+     * @param json the configuration as a JSONObject
+     */
+    public void configurationReceived(JSONObject json) {
+        Config config = new Config(json);
+        this.arduinoUtility.setupFromConfig(config);
+    }
 }

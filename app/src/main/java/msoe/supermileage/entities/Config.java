@@ -1,5 +1,7 @@
 package msoe.supermileage.entities;
 
+import org.json.JSONObject;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToMany;
@@ -23,19 +25,21 @@ public class Config {
     @Id
     private long id;
 
-    private String name;
-
-    private String json;
-
     private ToMany<Measurement> measurements;
 
     public Config() {
         // Entity is expected to have a no-arg constructor
     }
 
-    public Config(String name, String json) {
-        this.name = name;
-        this.json = json;
+    /**
+     * Turn a json String into a Configuration
+     *
+     * @param json
+     * @return
+     */
+    public Config(JSONObject json) {
+        //TODO
+        System.out.println("Yo");
     }
 
     public long getId() {
@@ -44,22 +48,6 @@ public class Config {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getJson() {
-        return json;
-    }
-
-    public void setJson(String json) {
-        this.json = json;
     }
 
     public ToMany<Measurement> getMeasurements() {

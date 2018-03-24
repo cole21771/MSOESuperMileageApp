@@ -18,6 +18,8 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import msoe.supermileage.entities.Config;
+
 /**
  * Handles communication with an Arduino.
  *
@@ -26,24 +28,40 @@ import java.util.List;
 public class ArduinoUtility {
 
     private final String ACTION_USB_PERMISSION = "msoe.supermileage.USB_PERMISSION";
+    private final String TOKEN_ENTRY = "[";
+    private final String TOKEN_EXIT = "]";
+    private final String TOKEN_DATA = "D";
+    private final String TOKEN_ERROR = "E";
+    private final String TOKEN_MARKER = "M";
+    private final String TOKEN_GENERAL = "G";
+    private final String TOKEN_TRIGGER = "T";
+    private final String TOKEN_RESPONSE = "R";
 
     private final App app;
     private final UsbManager usbManager;
+    private final StringBuilder inputBuilder;
 
     private UsbSerialDevice usbSerialDevice;
+
+
     private final UsbSerialInterface.UsbReadCallback handleUsbSerialDeviceRead = new UsbSerialInterface.UsbReadCallback() {
         @Override
         public void onReceivedData(byte[] bytes) {
             if (usbInputHandler != null) {
                 try {
                     String bytesAsText = new String(bytes, "UTF-8");
-                    usbInputHandler.onInputReceived(bytesAsText);
+                    processInput(bytesAsText);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
         }
     };
+
+    /**
+     * The number of measurements that are expected in a single set of data
+     */
+    private int numberOfMeasurements;
 
     private UsbInputHandler usbInputHandler;
 
@@ -54,6 +72,7 @@ public class ArduinoUtility {
     public ArduinoUtility(App app) {
         this.app = app;
         this.usbManager = (UsbManager) this.app.getSystemService(Context.USB_SERVICE);
+        this.inputBuilder = new StringBuilder(1024);
     }
 
     public void handleUsbInput(UsbInputHandler usbInputHandler) {
@@ -95,6 +114,14 @@ public class ArduinoUtility {
             this.usbSerialDevice.close();
             this.usbSerialDevice = null;
         }
+    }
+
+    /**
+     * Set how this class formats the data that will be sent to the usb input handlers
+     * @param config
+     */
+    public void setupFromConfig(Config config) {
+        this.numberOfMeasurements = config.getMeasurements().size();
     }
 
     private UsbDevice getArduinoDevice() {
@@ -142,4 +169,17 @@ public class ArduinoUtility {
             }
         }
     };
+
+    /**
+     * Validates data before it gets sent to the usb input handler
+     *
+     * @param bytesAsText raw text from the Arduino
+     */
+    private void processInput(String bytesAsText) {
+        this.inputBuilder.append(bytesAsText);
+
+        
+
+        this.usbInputHandler.onInputReceived(bytesAsText);
+    }
 }
