@@ -35,6 +35,7 @@ dependencies {
         exclude module: "support-v13"
     }
     compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.google.android.gms:play-services-location:12.0.0'
 
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
 
