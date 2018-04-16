@@ -24,6 +24,8 @@ public class WebUtility {
     protected static final String NEW_DATA = "newData";
     protected static final String LOCATION_ARGUMENT = "newLocation";
     protected static final String BATTERY_ARGUMENT = "batteryLife";
+    protected static final String MARKER_ARGUMENT = "new-marker";
+    protected static final String ERROR_ARGUMENT = "new-error";
     protected static final String GET_SELECTED_CONFIG_ERROR = "error";
     protected static final String GET_SELECTED_CONFIG_DATA = "data";
     private final ArduinoUtility.UsbInputHandler arduinoInputHandler = new ArduinoUtility.UsbInputHandler() {
@@ -31,7 +33,7 @@ public class WebUtility {
 
         @Override
         public void onDataPacketReceived(JSONArray jsonArray) {
-            postArduinoData(jsonArray.toString());
+            postArduinoData(NEW_DATA, jsonArray.toString());
         }
 
         @Override
@@ -41,12 +43,12 @@ public class WebUtility {
 
         @Override
         public void onErrorPacketReceived(JSONArray jsonArray) {
-
+            postArduinoData(ERROR_ARGUMENT, jsonArray.toString());
         }
 
         @Override
         public void onMarkerPacketReceived(JSONArray jsonArray) {
-
+            postArduinoData(MARKER_ARGUMENT, jsonArray.toString());
         }
 
         @Override
@@ -148,11 +150,11 @@ public class WebUtility {
         }
     }
 
-    public void postArduinoData(String json) {
+    public void postArduinoData(String serverArg, String json) {
         if (socket == null || !socket.connected()) {
             System.out.println(String.format("Socket closed. Argument '%s' data '%s'", NEW_DATA, json));
         } else {
-            socket.emit(NEW_DATA, json);
+            socket.emit(serverArg, json);
         }
     }
 
