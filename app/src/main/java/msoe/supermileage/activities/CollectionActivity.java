@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class CollectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         this.app = (App) getApplication();
         this.app.setActivity(this);
