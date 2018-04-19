@@ -5,11 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.location.LocationManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import io.objectbox.BoxStore;
-import msoe.supermileage.entities.Config;
 import msoe.supermileage.entities.MyObjectBox;
 import msoe.supermileage.entities.Server;
 
@@ -88,13 +84,4 @@ public class App extends Application {
         this.arduinoUtility.disconnect();
     }
 
-    /**
-     * Called when the configuration is sent.
-     *
-     * @param json the configuration as a JSONObject
-     */
-    public void configurationReceived(JSONObject json) {
-        Config config = new Config(json);
-        this.arduinoUtility.setupFromConfig(config);
-    }
 }

@@ -1,15 +1,12 @@
 package msoe.supermileage;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.URISyntaxException;
 
-import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -71,32 +68,6 @@ public class WebUtility {
         public void call(Object... args) {
 
             System.out.println("Socket connected.");
-            socket.emit(GET_SELECTED_CONFIG, "Yo", new Ack() {
-
-
-                @Override
-                public void call(Object... args) {
-                    System.out.println("getConfig callback");
-                    for (int i = 0; i < args.length; i++) {
-                        Object obj = args[i];
-                        System.out.printf("Object %d: %n", i, obj);
-                    }
-                    if (args.length == 1) {
-                        try {
-                            JSONObject jsonObject = (JSONObject) args[0];
-                            if (jsonObject.getBoolean(GET_SELECTED_CONFIG_ERROR)) {
-                                System.out.println(jsonObject.getString(GET_SELECTED_CONFIG_DATA));
-                            } else {
-                                app.configurationReceived(jsonObject);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        System.out.println("The number of args for getting selected config is not 1");
-                    }
-                }
-            });
         }
     };
 

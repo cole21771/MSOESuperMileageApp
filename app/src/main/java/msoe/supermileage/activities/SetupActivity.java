@@ -14,7 +14,6 @@ import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import msoe.supermileage.App;
 import msoe.supermileage.R;
-import msoe.supermileage.entities.Config;
 import msoe.supermileage.entities.Server;
 import msoe.supermileage.fragments.AddServerFragment;
 import msoe.supermileage.fragments.ConfirmServerFragment;
@@ -36,7 +35,6 @@ public class SetupActivity
     private Toolbar toolbar;
 
     private Box<Server> serverBox;
-    private Box<Config> configBox;
 
     private List<Server> servers;
 
@@ -64,7 +62,6 @@ public class SetupActivity
 
         BoxStore boxStore = this.app.getBoxStore();
         this.serverBox = boxStore.boxFor(Server.class);
-        this.configBox = boxStore.boxFor(Config.class);
 
         refreshServers();
 

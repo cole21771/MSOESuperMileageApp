@@ -20,8 +20,6 @@ import org.json.JSONArray;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import msoe.supermileage.entities.Config;
-
 /**
  * Handles communication with an Arduino.
  *
@@ -60,11 +58,6 @@ public class ArduinoUtility {
             }
         }
     };
-
-    /**
-     * The number of measurements that are expected in a single set of data
-     */
-    private int numberOfMeasurements;
 
     private UsbInputHandler usbInputHandler;
 
@@ -127,15 +120,6 @@ public class ArduinoUtility {
             this.usbSerialDevice.close();
             this.usbSerialDevice = null;
         }
-    }
-
-    /**
-     * Set how this class formats the data that will be sent to the usb input handlers
-     *
-     * @param config
-     */
-    public void setupFromConfig(Config config) {
-        this.numberOfMeasurements = config.getMeasurements().size();
     }
 
     private UsbDevice getArduinoDevice() {

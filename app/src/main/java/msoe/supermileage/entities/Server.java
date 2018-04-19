@@ -6,7 +6,6 @@ import io.objectbox.Box;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Transient;
-import io.objectbox.relation.ToOne;
 import msoe.supermileage.WebUtility;
 
 /**
@@ -33,8 +32,6 @@ public class Server {
     private String port;
 
     private String name;
-
-    private ToOne<Config> config;
 
     @Transient
     private boolean reachable;
@@ -79,14 +76,6 @@ public class Server {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ToOne<Config> getConfig() {
-        return config;
-    }
-
-    public void setConfig(ToOne<Config> config) {
-        this.config = config;
     }
 
     public boolean isReachable() {
