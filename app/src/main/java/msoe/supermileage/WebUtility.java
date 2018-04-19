@@ -58,6 +58,13 @@ public class WebUtility {
 
         }
     };
+    private final LocationUtility.LocationInputHandler locationInputHandler = new LocationUtility.LocationInputHandler() {
+
+        @Override
+        public void onInputReceived(String json) {
+            postLocationData(json);
+        }
+    };
 
     private Socket socket;
     private final App app;
@@ -85,13 +92,7 @@ public class WebUtility {
         this.app = app;
 
         arduinoUtility.handleUsbInput(arduinoInputHandler);
-        locationUtility.handleLocationInput(new LocationUtility.LocationInputHandler() {
-
-            @Override
-            public void onInputReceived(String text) {
-                postLocationData(text);
-            }
-        });
+        locationUtility.handleLocationInput(locationInputHandler);
     }
 
     public void connectTo(String ipAddress, String port) {

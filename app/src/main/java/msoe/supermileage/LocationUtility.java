@@ -7,6 +7,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import org.json.JSONArray;
+
 import java.util.Arrays;
 
 /**
@@ -27,14 +29,18 @@ public class LocationUtility {
         @Override
         public void onLocationChanged(Location location) {
             if (locationInputHandler != null) {
-                String locationText = Arrays.toString(
-                        new Double[]{
-                                location.getLatitude(),
-                                location.getLongitude(),
-                                location.getSpeed() * MPS_TO_MPH
-                        }
-                );
-                locationInputHandler.onInputReceived(locationText);
+                Double[] data = new Double[] {
+                        location.getLatitude(),
+                        location.getLongitude(),
+                        location.getSpeed() * MPS_TO_MPH
+                };
+                JSONArray jsonArray = new JSONArray();
+                for (int j = 1; j < data.length; j++) {
+                    jsonArray.put(data[j]);
+                }
+                String json = jsonArray.toString();
+                locationInputHandler.onInputReceived(json);
+
             }
         }
 
@@ -57,7 +63,7 @@ public class LocationUtility {
     private LocationInputHandler locationInputHandler;
 
     public interface LocationInputHandler {
-        void onInputReceived(String text);
+        void onInputReceived(String json);
     }
 
     public LocationUtility(App app, LocationManager locationManager) {
