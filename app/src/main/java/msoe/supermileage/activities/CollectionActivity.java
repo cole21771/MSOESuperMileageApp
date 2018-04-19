@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +18,7 @@ import android.widget.ToggleButton;
 
 import msoe.supermileage.App;
 import msoe.supermileage.R;
+import msoe.supermileage.WebUtility;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -30,6 +33,8 @@ import permissions.dispatcher.RuntimePermissions;
  */
 @RuntimePermissions
 public class CollectionActivity extends AppCompatActivity implements App.AppUpdateListener {
+    private final int REFRESH_INTERVAL = 2000;
+
     private App app;
 
     private Toolbar toolbar;
@@ -44,6 +49,30 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
     private TextView locationTextView;
     private ToggleButton startStopToggleButton;
     private ImageView serverImageView;
+    private Handler handler;
+
+    private Runnable onlineStatusChecker = new Runnable() {
+
+        @Override
+        public void run() {
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    final boolean isReachable = WebUtility.isReachable(serverIP, Integer.parseInt(serverPort));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            serverImageView.setImageResource(isReachable ? android.R.drawable.presence_online : android.R.drawable.presence_offline);
+
+                            handler.postDelayed(onlineStatusChecker, REFRESH_INTERVAL);
+                        }
+                    });
+                }
+            };
+            thread.setDaemon(false);
+            thread.start();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +119,10 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
                 }
             }
         });
+
+        // setup the refresh thread
+        this.handler = handler = new Handler(Looper.getMainLooper());
+        onlineStatusChecker.run();
     }
 
     @Override
@@ -150,10 +183,8 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
             public void run() {
                 if (app.isConnected()) {
                     statusTextView.setText("Connected");
-                    serverImageView.setImageResource(android.R.drawable.presence_online);
                 } else {
                     statusTextView.setText("Disconnected");
-                    serverImageView.setImageResource(android.R.drawable.presence_offline);
                 }
             }
         });
