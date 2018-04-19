@@ -50,6 +50,8 @@ public class SelectServerFragment extends Fragment {
         void swapFragments(SetupActivity.SetupActivityFragmentType type);
 
         void selectServer(Server server);
+
+        void editServer(Server server);
     }
 
     public SelectServerFragment() {
@@ -140,12 +142,26 @@ public class SelectServerFragment extends Fragment {
                         listener.selectServer(server);
                     }
                 });
+                textView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        listener.editServer(server);
+                        return true;
+                    }
+                });
 
                 ImageView imageView = result.findViewById(R.id.serverIndicator);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         listener.selectServer(server);
+                    }
+                });
+                imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        listener.editServer(server);
+                        return true;
                     }
                 });
             }
