@@ -91,6 +91,8 @@ public class App extends Application {
         this.webUtility.disconnect();
         this.locationUtility.stopMonitoringLocation();
         this.arduinoUtility.disconnect();
+        onArduinoPacketReceived(null);
+        onLocationInputReceived(null);
     }
 
     /**

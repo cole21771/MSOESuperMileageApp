@@ -40,6 +40,8 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
     private String config;
     private ImageView serverAvailabilityImageView;
     private TextView statusTextView;
+    private TextView arduinoTextView;
+    private TextView locationTextView;
     private ToggleButton startStopToggleButton;
 
     @Override
@@ -67,6 +69,8 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
         serverNameTextview.setText(this.serverName);
 
         this.statusTextView = findViewById(R.id.status_textview);
+        this.arduinoTextView = findViewById(R.id.arduino_textView);
+        this.locationTextView = findViewById(R.id.location_textView);
 
         this.startStopToggleButton = findViewById(R.id.data_send_togglebutton);
         this.startStopToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -135,12 +139,12 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
 
     @Override
     public void arduinoUpdate(String json) {
-
+        this.arduinoTextView.setText(json == null ? "" : "arduino: " + json);
     }
 
     @Override
     public void locationUpdate(String json) {
-
+        this.locationTextView.setText(json == null ? "" : "location: " + json);
     }
 
     // TODO update status field, start/stop button text ( startStopToggleButton.setText(R.string.stop); startStopToggleButton.setText(R.string.start);
