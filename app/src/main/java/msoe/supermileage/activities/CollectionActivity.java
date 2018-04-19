@@ -160,13 +160,23 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
     }
 
     @Override
-    public void arduinoUpdate(String json) {
-        this.arduinoTextView.setText(json == null ? "" : "arduino: " + json);
+    public void arduinoUpdate(final String json) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                arduinoTextView.setText(json == null ? "" : "arduino: " + json);
+            }
+        });
     }
 
     @Override
-    public void locationUpdate(String json) {
-        this.locationTextView.setText(json == null ? "" : "location: " + json);
+    public void locationUpdate(final String json) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                locationTextView.setText(json == null ? "" : "location: " + json);
+            }
+        });
     }
 
     // TODO update status field, start/stop button text ( startStopToggleButton.setText(R.string.stop); startStopToggleButton.setText(R.string.start);
