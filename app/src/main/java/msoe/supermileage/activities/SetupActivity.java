@@ -123,11 +123,13 @@ public class SetupActivity
         assert server != null;
 
         this.app.setSelectedServer(server);
+
         Intent intent = new Intent(this, CollectionActivity.class);
         intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.app.getSelectedServer().getName());
         intent.putExtra(App.EXTRA_SM_SERVER_IP, this.app.getSelectedServer().getIpAddress());
         intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.app.getSelectedServer().getPort());
         startActivity(intent);
+        finish();
     }
 
     @Override
