@@ -16,7 +16,6 @@ import msoe.supermileage.App;
 import msoe.supermileage.R;
 import msoe.supermileage.entities.Server;
 import msoe.supermileage.fragments.AddServerFragment;
-import msoe.supermileage.fragments.ConfirmServerFragment;
 import msoe.supermileage.fragments.SelectServerFragment;
 
 /**
@@ -27,8 +26,7 @@ import msoe.supermileage.fragments.SelectServerFragment;
 public class SetupActivity
         extends AppCompatActivity
         implements SelectServerFragment.OnFragmentInteractionListener,
-        AddServerFragment.OnFragmentInteractionListener,
-        ConfirmServerFragment.OnFragmentInteractionListener {
+        AddServerFragment.OnFragmentInteractionListener {
 
     private App app;
 
@@ -42,7 +40,6 @@ public class SetupActivity
         NONE,
         SELECT_SERVER,
         ADD_SERVER,
-        CONFIRM_SERVER,
     }
 
     public List<Server> getServers() {
@@ -108,9 +105,6 @@ public class SetupActivity
             case ADD_SERVER:
                 fragment = new AddServerFragment();
                 break;
-            case CONFIRM_SERVER:
-                fragment = new ConfirmServerFragment();
-                break;
             default:
                 break;
         }
@@ -129,7 +123,11 @@ public class SetupActivity
         assert server != null;
 
         this.app.setSelectedServer(server);
-        this.swapFragments(SetupActivityFragmentType.CONFIRM_SERVER);
+        Intent intent = new Intent(this, CollectionActivity.class);
+        intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.app.getSelectedServer().getName());
+        intent.putExtra(App.EXTRA_SM_SERVER_IP, this.app.getSelectedServer().getIpAddress());
+        intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.app.getSelectedServer().getPort());
+        startActivity(intent);
     }
 
     @Override
@@ -141,15 +139,6 @@ public class SetupActivity
         Server server = new Server(name, ipAddress, port);
         serverBox.put(server);
         refreshServers();
-    }
-
-    @Override
-    public void confirmServer() {
-        Intent intent = new Intent(this, CollectionActivity.class);
-        intent.putExtra(App.EXTRA_SM_SERVER_NAME, this.app.getSelectedServer().getName());
-        intent.putExtra(App.EXTRA_SM_SERVER_IP, this.app.getSelectedServer().getIpAddress());
-        intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.app.getSelectedServer().getPort());
-        startActivity(intent);
     }
 
     public void refreshServers() {
