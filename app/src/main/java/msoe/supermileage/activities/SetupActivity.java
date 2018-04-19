@@ -1,11 +1,16 @@
 package msoe.supermileage.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +135,42 @@ public class SetupActivity
         intent.putExtra(App.EXTRA_SM_SERVER_PORT, this.app.getSelectedServer().getPort());
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void editServer(final Server server) {
+        assert server != null;
+
+        // create an alert dialog for editing
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage("Modify Server");
+        alert.setTitle("Edit " + server.getName());
+
+        // inflate the view and setup the edittext fields
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View textEntryView = factory.inflate(R.layout.view_edit_server, null);
+        final EditText nameEditText = (EditText) textEntryView.findViewById(R.id.serverNameEditText);
+        nameEditText.setText(server.getName());
+        final EditText ipEditText = (EditText) textEntryView.findViewById(R.id.serverIPEditText);
+        ipEditText.setText(server.getIpAddress());
+        final EditText portEditText = (EditText) textEntryView.findViewById(R.id.serverPortEditText);
+        portEditText.setText(server.getPort());
+
+        alert.setView(textEntryView);
+        alert.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                server.setName(nameEditText.getText().toString());
+                server.setIpAddress(ipEditText.getText().toString());
+                server.setPort(portEditText.getText().toString());
+                serverBox.put(server);
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // what ever you want to do with No option.
+            }
+        });
+        alert.show();
     }
 
     @Override
