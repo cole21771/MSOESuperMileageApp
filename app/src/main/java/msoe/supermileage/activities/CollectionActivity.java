@@ -43,6 +43,7 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
     private TextView arduinoTextView;
     private TextView locationTextView;
     private ToggleButton startStopToggleButton;
+    private ImageView serverImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +69,12 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
         TextView serverNameTextview = findViewById(R.id.server_name_textview);
         serverNameTextview.setText(this.serverName);
 
+        this.serverImageView = findViewById(R.id.server_available_imageview);
+
         this.statusTextView = findViewById(R.id.status_textview);
-        this.statusTextView.setText(app.isConnected() ? "Connected" : "Disconnected");
+
+        connectionChanged(app.isConnected());
+
         this.arduinoTextView = findViewById(R.id.arduino_textView);
         this.locationTextView = findViewById(R.id.location_textView);
 
@@ -140,7 +145,13 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
 
     @Override
     public void connectionChanged(boolean connected) {
-        this.statusTextView.setText(connected ? "Connected" : "Disconnected");
+        if (app.isConnected()) {
+            this.statusTextView.setText("Connected");
+            this.serverImageView.setImageResource(android.R.drawable.presence_online);
+        } else {
+            this.statusTextView.setText("Disconnected");
+            this.serverImageView.setImageResource(android.R.drawable.presence_offline);
+        }
     }
 
     @Override
