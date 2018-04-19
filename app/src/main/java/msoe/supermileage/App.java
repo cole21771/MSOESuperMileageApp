@@ -43,9 +43,30 @@ public class App extends Application {
     }
 
     /**
+     * called when the socket connects or disconnects
+     * @param connected true if connected
+     */
+    public void connectionDidChange(boolean connected) {
+        if (appUpdateListener != null) {
+            connectionDidChange(connected);
+        }
+
+    }
+
+    /**
+     * is a connection available
+     *
+     * @return true if a connection is available
+     */
+    public boolean isConnected() {
+        return webUtility.isConnected();
+    }
+
+    /**
      * called when there is input from location and arduino
      */
     public interface AppUpdateListener {
+        void connectionChanged(boolean connected);
         void arduinoUpdate(String json);
         void locationUpdate(String json);
     }

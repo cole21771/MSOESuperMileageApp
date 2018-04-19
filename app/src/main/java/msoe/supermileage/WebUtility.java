@@ -75,6 +75,7 @@ public class WebUtility {
         public void call(Object... args) {
 
             System.out.println("Socket connected.");
+            app.connectionDidChange(true);
         }
     };
 
@@ -83,6 +84,7 @@ public class WebUtility {
         public void call(Object... args) {
             System.out.println("Socket disconnected.");
             socket = null;
+            app.connectionDidChange(false);
         }
     };
 
@@ -151,5 +153,9 @@ public class WebUtility {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public boolean isConnected() {
+        return socket != null && socket.connected();
     }
 }

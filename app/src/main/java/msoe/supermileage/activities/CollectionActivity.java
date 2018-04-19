@@ -69,6 +69,7 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
         serverNameTextview.setText(this.serverName);
 
         this.statusTextView = findViewById(R.id.status_textview);
+        this.statusTextView.setText(app.isConnected() ? "Connected" : "Disconnected");
         this.arduinoTextView = findViewById(R.id.arduino_textView);
         this.locationTextView = findViewById(R.id.location_textView);
 
@@ -135,6 +136,11 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
                 .setCancelable(false)
                 .setMessage(message)
                 .show();
+    }
+
+    @Override
+    public void connectionChanged(boolean connected) {
+        this.statusTextView.setText(connected ? "Connected" : "Disconnected");
     }
 
     @Override
