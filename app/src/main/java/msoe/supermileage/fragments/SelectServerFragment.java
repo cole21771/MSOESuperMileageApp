@@ -3,6 +3,7 @@ package msoe.supermileage.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,8 @@ public class SelectServerFragment extends Fragment {
         void selectServer(Server server);
 
         void editServer(Server server);
+
+        void refreshServers();
     }
 
     public SelectServerFragment() {
@@ -95,6 +98,17 @@ public class SelectServerFragment extends Fragment {
                 return result;
             }
         });
+
+        // setup swipe refresh
+        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                listener.refreshServers();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         return view;
     }

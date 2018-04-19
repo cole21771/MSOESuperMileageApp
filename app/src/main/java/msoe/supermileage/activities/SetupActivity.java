@@ -184,9 +184,12 @@ public class SetupActivity
         refreshServers();
     }
 
+    @Override
     public void refreshServers() {
         this.servers.clear();
         this.servers.addAll(serverBox.getAll());
+
+        System.out.println("refresh servers");
 
         for (final Server server : this.servers) {
             server.checkReachable(serverBox);
