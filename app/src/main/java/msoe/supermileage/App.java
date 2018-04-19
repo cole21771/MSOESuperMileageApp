@@ -48,7 +48,7 @@ public class App extends Application {
      */
     public void connectionDidChange(boolean connected) {
         if (appUpdateListener != null) {
-            connectionDidChange(connected);
+            appUpdateListener.connectionChanged(connected);
         }
 
     }
