@@ -145,13 +145,18 @@ public class CollectionActivity extends AppCompatActivity implements App.AppUpda
 
     @Override
     public void connectionChanged(boolean connected) {
-        if (app.isConnected()) {
-            this.statusTextView.setText("Connected");
-            this.serverImageView.setImageResource(android.R.drawable.presence_online);
-        } else {
-            this.statusTextView.setText("Disconnected");
-            this.serverImageView.setImageResource(android.R.drawable.presence_offline);
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (app.isConnected()) {
+                    statusTextView.setText("Connected");
+                    serverImageView.setImageResource(android.R.drawable.presence_online);
+                } else {
+                    statusTextView.setText("Disconnected");
+                    serverImageView.setImageResource(android.R.drawable.presence_offline);
+                }
+            }
+        });
     }
 
     @Override
