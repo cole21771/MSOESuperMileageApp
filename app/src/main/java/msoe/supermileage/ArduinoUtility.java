@@ -237,6 +237,8 @@ public class ArduinoUtility {
                 }
             }
 
+            app.onArduinoPacketReceived(jsonArray.toString());
+
             // delete the builder from 0 to end index
             this.inputBuilder.delete(0, endIndex + 1);
         }

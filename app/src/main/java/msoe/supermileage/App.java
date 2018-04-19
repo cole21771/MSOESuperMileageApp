@@ -32,6 +32,7 @@ public class App extends Application {
     private ArduinoUtility arduinoUtility;
     private Activity currentActivity;
     private Server selectedServer;
+    private AppUpdateListener appUpdateListener;
 
     public Server getSelectedServer() {
         return this.selectedServer;
@@ -39,6 +40,14 @@ public class App extends Application {
 
     public void setSelectedServer(Server selectedServer) {
         this.selectedServer = selectedServer;
+    }
+
+    /**
+     * called when there is input from location and arduino
+     */
+    public interface AppUpdateListener {
+        void arduinoUpdate(String json);
+        void locationUpdate(String json);
     }
 
     @Override
@@ -84,4 +93,29 @@ public class App extends Application {
         this.arduinoUtility.disconnect();
     }
 
+    /**
+     * called when arduino data is available
+     *
+     * @param json the data
+     */
+    public void onArduinoPacketReceived(String json) {
+        if (this.appUpdateListener != null) {
+            this.appUpdateListener.arduinoUpdate(json);
+        }
+    }
+
+    /**
+     * called when location data is available
+     *
+     * @param json the data
+     */
+    public void onLocationInputReceived(String json) {
+        if (this.appUpdateListener != null) {
+            this.appUpdateListener.locationUpdate(json);
+        }
+    }
+
+    public void setUpdateListener(AppUpdateListener appUpdateListener) {
+        this.appUpdateListener = appUpdateListener;
+    }
 }

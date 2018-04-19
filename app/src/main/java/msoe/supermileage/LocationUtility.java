@@ -39,6 +39,7 @@ public class LocationUtility {
                     jsonArray.put(data[j]);
                 }
                 String json = jsonArray.toString();
+                app.onLocationInputReceived(json);
                 locationInputHandler.onInputReceived(json);
 
             }

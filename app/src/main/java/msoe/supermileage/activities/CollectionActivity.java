@@ -29,7 +29,7 @@ import permissions.dispatcher.RuntimePermissions;
  * @author braithwaitec
  */
 @RuntimePermissions
-public class CollectionActivity extends AppCompatActivity {
+public class CollectionActivity extends AppCompatActivity implements App.AppUpdateListener {
     private App app;
 
     private Toolbar toolbar;
@@ -50,6 +50,7 @@ public class CollectionActivity extends AppCompatActivity {
 
         this.app = (App) getApplication();
         this.app.setActivity(this);
+        this.app.setUpdateListener(this);
 
         this.toolbar = findViewById(R.id.collection_toolbar);
         setSupportActionBar(this.toolbar);
@@ -130,6 +131,16 @@ public class CollectionActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setMessage(message)
                 .show();
+    }
+
+    @Override
+    public void arduinoUpdate(String json) {
+
+    }
+
+    @Override
+    public void locationUpdate(String json) {
+
     }
 
     // TODO update status field, start/stop button text ( startStopToggleButton.setText(R.string.stop); startStopToggleButton.setText(R.string.start);
