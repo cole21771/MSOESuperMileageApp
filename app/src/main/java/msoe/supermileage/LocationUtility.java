@@ -35,7 +35,7 @@ public class LocationUtility {
                         location.getSpeed() * MPS_TO_MPH
                 };
                 JSONArray jsonArray = new JSONArray();
-                for (int j = 1; j < data.length; j++) {
+                for (int j = 0; j < data.length; j++) {
                     jsonArray.put(data[j]);
                 }
                 String json = jsonArray.toString();
