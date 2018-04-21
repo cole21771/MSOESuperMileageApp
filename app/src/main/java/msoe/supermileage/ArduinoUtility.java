@@ -9,9 +9,12 @@ import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.util.Log;
 
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
+import com.hoho.android.usbserial.driver.CdcAcmSerialDriver;
+import com.hoho.android.usbserial.driver.ProbeTable;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 
@@ -123,23 +126,30 @@ public class ArduinoUtility {
     }
 
     private UsbDevice getArduinoDevice() {
-        UsbDevice result = null;
-
         List<UsbSerialDriver> usbSerialDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(this.usbManager);
         if (usbSerialDrivers.isEmpty()) {
-            // nothing is connected
-        } else {
-            int i = 0;
-            while (result == null && i < usbSerialDrivers.size()) {
-                UsbSerialDriver usbSerialDriver = usbSerialDrivers.get(i);
-                // Check for Arduino Vendor ID
-                if (usbSerialDriver.getDevice().getVendorId() == 0x2341 || usbSerialDriver.getDevice().getVendorId() == 0x1A86) {
-                    result = usbSerialDriver.getDevice();
-                }
-                i++;
+            ProbeTable deviceTable = new ProbeTable();
+            deviceTable.addProduct(0x2341, 0x003D, CdcAcmSerialDriver.class);
+            UsbSerialProber prober = new UsbSerialProber(deviceTable);
+            usbSerialDrivers = prober.findAllDrivers(usbManager);
+
+            if (usbSerialDrivers.isEmpty()) {
+                return null;
             }
         }
-        return result;
+
+        return this.findArduino(usbSerialDrivers);
+    }
+
+    private UsbDevice findArduino(List<UsbSerialDriver> usbSerialDrivers) {
+        for (UsbSerialDriver driver: usbSerialDrivers) {
+            int vendorId = driver.getDevice().getVendorId();
+            if (vendorId == 0x2341 || vendorId == 0x1A86) {
+                return driver.getDevice();
+            }
+        }
+
+        return null;
     }
 
     private void requestDevicePermission(UsbDevice usbDevice) {

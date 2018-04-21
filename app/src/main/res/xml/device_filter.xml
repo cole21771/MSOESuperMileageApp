@@ -2,4 +2,5 @@
 <resources>
     <!-- Arduino Vendor ID -->
     <usb-device vendor-id="9025" />
+    <usb-device vendor-id="2341" />
 </resources>
