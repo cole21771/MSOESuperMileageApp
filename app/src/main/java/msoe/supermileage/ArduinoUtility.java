@@ -202,7 +202,7 @@ public class ArduinoUtility {
         // process packet if there is one
         if (startIndex != -1 && endIndex != -1) {
             // extract a substring with the packet
-            String packet = this.inputBuilder.substring(startIndex + 1, endIndex - 1);
+            String packet = this.inputBuilder.substring(startIndex + 1, endIndex);
             String[] packetPieces = packet.split(TOKEN_PACKET_SEPARATOR);
             JSONArray jsonArray = new JSONArray();
             for (int j = 1; j < packetPieces.length; j++) {
