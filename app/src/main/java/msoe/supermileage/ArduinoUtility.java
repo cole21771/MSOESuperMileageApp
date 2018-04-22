@@ -35,11 +35,17 @@ public class ArduinoUtility {
     private final char TOKEN_PACKET_END = ']';
     private final String TOKEN_PACKET_SEPARATOR = ",";
     private final String TOKEN_DATA = "D";
+    private final String TOKEN_DATA_ALT = "d";
     private final String TOKEN_ERROR = "E";
+    private final String TOKEN_ERROR_ALT = "e";
     private final String TOKEN_GENERAL = "G";
     private final String TOKEN_MARKER = "M";
     private final String TOKEN_TRIGGER = "T";
     private final String TOKEN_RESPONSE = "R";
+    private final String TOKEN_GENERAL_ALT = "g";
+    private final String TOKEN_MARKER_ALT = "m";
+    private final String TOKEN_TRIGGER_ALT = "t";
+    private final String TOKEN_RESPONSE_ALT = "r";
 
     private final App app;
     private final UsbManager usbManager;
@@ -225,7 +231,15 @@ public class ArduinoUtility {
                     this.usbInputHandler.onDataPacketReceived(jsonArray);
                     break;
                 }
+                case TOKEN_DATA_ALT: {
+                    this.usbInputHandler.onDataPacketReceived(jsonArray);
+                    break;
+                }
                 case TOKEN_GENERAL: {
+                    this.usbInputHandler.onGeneralPacketReceived(jsonArray);
+                    break;
+                }
+                case TOKEN_GENERAL_ALT: {
                     this.usbInputHandler.onGeneralPacketReceived(jsonArray);
                     break;
                 }
@@ -233,7 +247,15 @@ public class ArduinoUtility {
                     this.usbInputHandler.onErrorPacketReceived(jsonArray);
                     break;
                 }
+                case TOKEN_ERROR_ALT: {
+                    this.usbInputHandler.onErrorPacketReceived(jsonArray);
+                    break;
+                }
                 case TOKEN_MARKER: {
+                    this.usbInputHandler.onMarkerPacketReceived(jsonArray);
+                    break;
+                }
+                case TOKEN_MARKER_ALT: {
                     this.usbInputHandler.onMarkerPacketReceived(jsonArray);
                     break;
                 }
@@ -241,7 +263,15 @@ public class ArduinoUtility {
                     this.usbInputHandler.onResponsePacketReceived(jsonArray);
                     break;
                 }
+                case TOKEN_RESPONSE_ALT: {
+                    this.usbInputHandler.onResponsePacketReceived(jsonArray);
+                    break;
+                }
                 case TOKEN_TRIGGER: {
+                    this.usbInputHandler.onTriggerPacketReceived(jsonArray);
+                    break;
+                }
+                case TOKEN_TRIGGER_ALT: {
                     this.usbInputHandler.onTriggerPacketReceived(jsonArray);
                     break;
                 }
