@@ -18,7 +18,7 @@ import io.socket.emitter.Emitter;
  */
 public class WebUtility {
     protected static final String GET_SELECTED_CONFIG = "getSelectedConfig";
-    protected static final String NEW_DATA = "newData";
+    protected static final String NEW_DATA_ARGUMENT = "newData";
     protected static final String LOCATION_ARGUMENT = "newLocation";
     protected static final String BATTERY_ARGUMENT = "batteryLife";
     protected static final String MARKER_ARGUMENT = "new-marker";
@@ -30,7 +30,7 @@ public class WebUtility {
 
         @Override
         public void onDataPacketReceived(JSONArray jsonArray) {
-            postArduinoData(NEW_DATA, jsonArray.toString());
+            post(NEW_DATA_ARGUMENT, jsonArray.toString());
         }
 
         @Override
@@ -40,12 +40,12 @@ public class WebUtility {
 
         @Override
         public void onErrorPacketReceived(JSONArray jsonArray) {
-            postArduinoData(ERROR_ARGUMENT, jsonArray.toString());
+            post(ERROR_ARGUMENT, jsonArray.toString());
         }
 
         @Override
         public void onMarkerPacketReceived(JSONArray jsonArray) {
-            postArduinoData(MARKER_ARGUMENT, jsonArray.toString());
+            post(MARKER_ARGUMENT, jsonArray.toString());
         }
 
         @Override
@@ -62,7 +62,7 @@ public class WebUtility {
 
         @Override
         public void onInputReceived(String json) {
-            postLocationData(json);
+            post(LOCATION_ARGUMENT, json);
         }
     };
 
@@ -124,22 +124,6 @@ public class WebUtility {
         }
     }
 
-    public void postArduinoData(String serverArg, String json) {
-        if (socket == null || !socket.connected()) {
-            System.out.println(String.format("Socket closed. Argument '%s' data '%s'", NEW_DATA, json));
-        } else {
-            socket.emit(serverArg, json);
-        }
-    }
-
-    public void postLocationData(String text) {
-        if (socket == null || !socket.connected()) {
-            System.out.println(String.format("Socket closed. Argument '%s' data '%s'", LOCATION_ARGUMENT, text));
-        } else {
-            socket.emit(LOCATION_ARGUMENT, text);
-        }
-    }
-
     public static boolean isReachable(String host, int port) {
         boolean result = false;
         try {
@@ -157,5 +141,14 @@ public class WebUtility {
 
     public boolean isConnected() {
         return socket != null && socket.connected();
+    }
+
+    private void post(String serverArg, String json) {
+        if (socket == null || !socket.connected()) {
+            String message = String.format("Socket closed. Argument: '%s' data: '%s'", serverArg, json);
+            System.out.println(message);
+        } else {
+            socket.emit(serverArg, json);
+        }
     }
 }
