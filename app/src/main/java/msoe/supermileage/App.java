@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.location.LocationManager;
-import android.widget.Toast;
 
 import io.objectbox.BoxStore;
 import msoe.supermileage.entities.MyObjectBox;
@@ -141,16 +140,5 @@ public class App extends Application {
 
     public void setUpdateListener(AppUpdateListener appUpdateListener) {
         this.appUpdateListener = appUpdateListener;
-    }
-
-    /**
-     * toast any type of message
-     * @param message text to display
-     */
-    public void toast(String message) {
-        if (this.currentActivity != null) {
-            Toast toast = Toast.makeText(this.currentActivity, message, Toast.LENGTH_SHORT);
-            toast.show();
-        }
     }
 }

@@ -282,9 +282,6 @@ public class ArduinoUtility {
                     this.usbInputHandler.onTriggerPacketReceived(jsonArray);
                     break;
                 }
-                default: {
-                    app.toast("Unknown Arduino packet type: " + packetPieces[0]);
-                }
             }
 
             app.onArduinoPacketReceived(jsonArray.toString());
