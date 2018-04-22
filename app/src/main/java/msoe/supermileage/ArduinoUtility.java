@@ -19,6 +19,7 @@ import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -217,11 +218,13 @@ public class ArduinoUtility {
             String[] packetPieces = packet.split(TOKEN_PACKET_SEPARATOR);
             
             JSONArray jsonArray = new JSONArray();
+
             for (int j = 1; j < packetPieces.length; j++) {
                 try {
-                    int number = Integer.parseInt(packetPieces[j]);
+                    double number = Double.parseDouble(packetPieces[j]);
                     jsonArray.put(number);
-                } catch (NumberFormatException e) {
+                } catch (NumberFormatException | JSONException e) {
+                    e.printStackTrace();
                     jsonArray.put(packetPieces[j]);
                 }
             }
@@ -251,6 +254,9 @@ public class ArduinoUtility {
                 case TOKEN_TRIGGER: {
                     this.usbInputHandler.onTriggerPacketReceived(jsonArray);
                     break;
+                }
+                default: {
+                    System.out.println("Unknown token type: " + packetPieces[0]);
                 }
             }
 
