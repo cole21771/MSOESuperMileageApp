@@ -219,10 +219,17 @@ public class ArduinoUtility {
         if (startIndex != -1 && endIndex != -1) {
             // extract a substring with the packet
             String packet = this.inputBuilder.substring(startIndex + 1, endIndex);
+
             String[] packetPieces = packet.split(TOKEN_PACKET_SEPARATOR);
+            
             JSONArray jsonArray = new JSONArray();
             for (int j = 1; j < packetPieces.length; j++) {
-                jsonArray.put(packetPieces[j]);
+                try {
+                    int number = Integer.parseInt(packetPieces[j]);
+                    jsonArray.put(number);
+                } catch (NumberFormatException e) {
+                    jsonArray.put(packetPieces[j]);
+                }
             }
 
             // determine the type of packet and send it
