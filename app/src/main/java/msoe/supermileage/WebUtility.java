@@ -147,6 +147,7 @@ public class WebUtility {
         if (socket == null || !socket.connected()) {
             String message = String.format("Socket closed. Argument: '%s' data: '%s'", serverArg, json);
             System.out.println(message);
+            app.toast(message);
         } else {
             socket.emit(serverArg, json);
         }
