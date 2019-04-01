@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.json.JSONArray;
 
@@ -28,6 +29,7 @@ public class LocationUtility {
     private final LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
+            Log.d("Location", "onLocationChanged: " + location.toString());
             if (locationInputHandler != null) {
                 Double[] data = new Double[] {
                         location.getLatitude(),
@@ -79,7 +81,7 @@ public class LocationUtility {
         this.providerCriteria.setAltitudeRequired(false);
         this.providerCriteria.setBearingRequired(false);
         this.providerCriteria.setCostAllowed(true);
-        this.providerCriteria.setPowerRequirement(Criteria.POWER_LOW);
+//        this.providerCriteria.setPowerRequirement(Criteria.POWER_LOW);
     }
 
     public void handleLocationInput(LocationInputHandler locationInputHandler) {
@@ -89,11 +91,13 @@ public class LocationUtility {
     @SuppressLint("MissingPermission")
     public void startMonitoringLocation() {
         String provider = locationManager.getBestProvider(this.providerCriteria, true);
+        Log.d("Location!", "startMonitoringLocation: " + provider);
         if (provider == null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this.locationListener);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this.locationListener);
         } else {
             locationManager.requestLocationUpdates(provider, 0, 0, this.locationListener);
+            Log.d("Location!", "requested updates");
         }
     }
 
